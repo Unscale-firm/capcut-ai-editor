@@ -7,41 +7,6 @@ from pydantic import BaseModel, Field
 from smartcut.config import MICROSECONDS_PER_SECOND
 
 
-# Transcription models (used by optional OpenAI mode)
-
-class TranscriptionWord(BaseModel):
-    """A single word with timestamps."""
-
-    word: str
-    start: float
-    end: float
-
-
-class TranscriptionSegment(BaseModel):
-    """A segment of transcription (usually a sentence or phrase)."""
-
-    id: int
-    start: float
-    end: float
-    text: str
-    words: list[TranscriptionWord] = Field(default_factory=list)
-
-
-class Transcription(BaseModel):
-    """Complete transcription result."""
-
-    language: str
-    duration: float
-    segments: list[TranscriptionSegment] = Field(default_factory=list)
-
-    def get_all_words(self) -> list[TranscriptionWord]:
-        """Get flat list of all words across all segments."""
-        words = []
-        for segment in self.segments:
-            words.extend(segment.words)
-        return words
-
-
 # Duplicate detection models (used by optional OpenAI mode)
 
 class DuplicateGroup(BaseModel):

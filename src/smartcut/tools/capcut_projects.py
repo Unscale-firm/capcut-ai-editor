@@ -73,7 +73,6 @@ async def open_capcut_project(
 
     return {
         "project": data.model_dump(),
-        "source_videos": [str(p) for p in project.get_source_video_paths()],
         "auto_subtitles_count": len(subtitles),
         "auto_subtitles": [
             {"text": s.text, "start_sec": round(s.timeline_start_sec, 2), "end_sec": round(s.timeline_end_sec, 2)}

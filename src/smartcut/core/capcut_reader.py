@@ -258,14 +258,6 @@ class CapCutProject:
         segments.sort(key=lambda s: s.timeline_start_us)
         return segments
 
-    def get_source_video_paths(self) -> list[Path]:
-        """Get unique source video file paths."""
-        paths = set()
-        for material in self.get_video_materials():
-            if material.path:
-                paths.add(Path(material.path))
-        return list(paths)
-
     def to_project_data(self) -> CapCutProjectData:
         """Convert to CapCutProjectData model."""
         return CapCutProjectData(
