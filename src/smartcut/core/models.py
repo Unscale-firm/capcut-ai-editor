@@ -1,11 +1,13 @@
 """Pydantic data models for SmartCut."""
 
-from typing import Literal, Optional
+from typing import Optional
 
 from pydantic import BaseModel, Field
 
+from smartcut.config import MICROSECONDS_PER_SECOND
 
-# Transcription models
+
+# Transcription models (used by optional OpenAI mode)
 
 class TranscriptionWord(BaseModel):
     """A single word with timestamps."""
@@ -40,89 +42,7 @@ class Transcription(BaseModel):
         return words
 
 
-# Analysis models
-
-class Paragraph(BaseModel):
-    """A paragraph identified in the transcription."""
-
-    id: int
-    start: float
-    end: float
-    text: str
-    action: Literal["keep", "remove"]
-    reason: str
-    group_id: Optional[int] = None
-
-
-class CutSegment(BaseModel):
-    """A segment to keep or remove in the final cut."""
-
-    start: float
-    end: float
-    start_word: str = ""
-    end_word: str = ""
-    reason: Optional[str] = None
-
-
-class CutStats(BaseModel):
-    """Statistics about the cut plan."""
-
-    original_duration: float
-    kept_duration: float
-    removed_duration: float
-    duplicates_removed: int = 0
-    silences_removed: int = 0
-
-    @property
-    def time_saved_formatted(self) -> str:
-        """Format removed duration as MM:SS."""
-        minutes = int(self.removed_duration // 60)
-        seconds = int(self.removed_duration % 60)
-        return f"{minutes}:{seconds:02d}"
-
-    @property
-    def original_duration_formatted(self) -> str:
-        """Format original duration as MM:SS."""
-        minutes = int(self.original_duration // 60)
-        seconds = int(self.original_duration % 60)
-        return f"{minutes}:{seconds:02d}"
-
-    @property
-    def kept_duration_formatted(self) -> str:
-        """Format kept duration as MM:SS."""
-        minutes = int(self.kept_duration // 60)
-        seconds = int(self.kept_duration % 60)
-        return f"{minutes}:{seconds:02d}"
-
-
-class CutPlan(BaseModel):
-    """Plan for cutting the video."""
-
-    keep_segments: list[CutSegment] = Field(default_factory=list)
-    remove_segments: list[CutSegment] = Field(default_factory=list)
-    stats: CutStats
-
-
-class AnalysisResult(BaseModel):
-    """Complete analysis result."""
-
-    paragraphs: list[Paragraph] = Field(default_factory=list)
-    cut_plan: CutPlan
-
-
-# Subtitle models
-
-class SubtitleLine(BaseModel):
-    """A single subtitle line."""
-
-    start: float
-    end: float
-    text: str
-    accent_words: list[str] = Field(default_factory=list)
-    position: Literal["top", "bottom"] = "bottom"
-
-
-# Duplicate detection models
+# Duplicate detection models (used by optional OpenAI mode)
 
 class DuplicateGroup(BaseModel):
     """A group of duplicate paragraphs."""
@@ -139,29 +59,6 @@ class DuplicateGroups(BaseModel):
     groups: list[DuplicateGroup] = Field(default_factory=list)
 
 
-# Media info models
-
-class MediaInfo(BaseModel):
-    """Information about a media file."""
-
-    duration: float
-    width: int
-    height: int
-    fps: float = 30.0
-    audio_sample_rate: int = 44100
-    format: str = "mov"
-
-
-class LoudnessInfo(BaseModel):
-    """Audio loudness measurement."""
-
-    input_i: float  # Integrated loudness (LUFS)
-    input_tp: float  # True peak (dB)
-    input_lra: float  # Loudness range
-    input_thresh: float  # Threshold
-    target_offset: float = 0.0
-
-
 # CapCut project models
 
 class ProjectInfo(BaseModel):
@@ -174,7 +71,7 @@ class ProjectInfo(BaseModel):
     duration_formatted: str
     modified_time: int
     video_count: int = 0
-    has_content: bool = True  # Whether draft_content.json exists (project can be modified)
+    has_content: bool = True
 
 
 class ExistingVideoSegment(BaseModel):
@@ -222,3 +119,31 @@ class CapCutProjectData(BaseModel):
     video_materials: list[ExistingVideoMaterial] = Field(default_factory=list)
     video_segments: list[ExistingVideoSegment] = Field(default_factory=list)
     text_segments: list[ExistingTextSegment] = Field(default_factory=list)
+
+
+# CapCut auto-subtitle model
+
+class CapCutSubtitleSegment(BaseModel):
+    """A subtitle segment read from CapCut's auto-generated subtitles."""
+
+    segment_id: str
+    material_id: str
+    text: str
+    words_text: list[str] = Field(default_factory=list)
+    words_start_ms: list[int] = Field(default_factory=list)
+    words_end_ms: list[int] = Field(default_factory=list)
+    timeline_start_us: int
+    timeline_duration_us: int
+    recognize_task_id: str
+
+    @property
+    def timeline_start_sec(self) -> float:
+        return self.timeline_start_us / MICROSECONDS_PER_SECOND
+
+    @property
+    def timeline_end_sec(self) -> float:
+        return (self.timeline_start_us + self.timeline_duration_us) / MICROSECONDS_PER_SECOND
+
+    @property
+    def timeline_end_us(self) -> int:
+        return self.timeline_start_us + self.timeline_duration_us

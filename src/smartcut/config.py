@@ -2,7 +2,7 @@
 
 import platform
 from pathlib import Path
-from typing import Literal, Optional
+from typing import Optional
 
 from pydantic import Field
 from pydantic_settings import BaseSettings
@@ -11,21 +11,8 @@ from pydantic_settings import BaseSettings
 class Settings(BaseSettings):
     """Application settings loaded from environment variables."""
 
-    # API Keys
     openai_api_key: str = Field(default="", alias="OPENAI_API_KEY")
-    auphonic_api_key: Optional[str] = Field(default=None, alias="AUPHONIC_API_KEY")
-    auphonic_preset_uuid: Optional[str] = Field(default=None, alias="AUPHONIC_PRESET_UUID")
-
-    # CapCut
     capcut_drafts_dir: Optional[str] = Field(default=None, alias="CAPCUT_DRAFTS_DIR")
-
-    # Safety: what can SmartCut modify?
-    # - "capcut" = only CapCut projects (default, safest)
-    # - "source" = only source video files
-    # - "all" = both CapCut and source files
-    allowed_targets: Literal["capcut", "source", "all"] = Field(
-        default="capcut", alias="SMARTCUT_ALLOWED_TARGETS"
-    )
 
     model_config = {"env_file": ".env", "extra": "ignore"}
 
@@ -41,35 +28,17 @@ class Settings(BaseSettings):
             local_app_data = Path.home() / "AppData" / "Local"
             return local_app_data / "CapCut" / "User Data" / "Projects" / "com.lveditor.draft"
         else:
-            # Linux or other - use current directory
             return Path.cwd() / "capcut_drafts"
 
 
-# Default constants
-SILENCE_THRESHOLD_SEC = 3.0
+SILENCE_THRESHOLD_SEC = 1.0
 MIN_SEGMENT_DURATION_SEC = 0.5
-SUBTITLE_MAX_WORDS = 8
-SUBTITLE_MAX_CHARS = 45
-TARGET_LUFS = -16.0
+DUPLICATE_SIMILARITY_THRESHOLD = 0.6
 WHISPER_MODEL = "whisper-1"
-LLM_MODEL = "gpt-4o-mini"
-
-# Time conversion
+LLM_MODEL = "gpt-4.1-mini"
 MICROSECONDS_PER_SECOND = 1_000_000
 
 
 def get_settings() -> Settings:
     """Get cached settings instance."""
     return Settings()
-
-
-def can_modify_capcut() -> bool:
-    """Check if modifying CapCut projects is allowed."""
-    settings = get_settings()
-    return settings.allowed_targets in ("capcut", "all")
-
-
-def can_modify_source() -> bool:
-    """Check if modifying source files is allowed."""
-    settings = get_settings()
-    return settings.allowed_targets in ("source", "all")

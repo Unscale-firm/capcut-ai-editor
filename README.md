@@ -1,34 +1,23 @@
 # SmartCut MCP Server
 
-MCP server for automated "talking head" video processing. Removes pauses, detects duplicate takes, adds subtitles — and exports to CapCut project.
+MCP server for automated "talking head" video editing. Reads CapCut's auto-generated subtitles to find and remove silences and duplicate takes — directly in the CapCut project.
 
-## Features
+## How it works
 
-- **Removes long pauses** (3+ seconds between phrases)
-- **Detects duplicate takes** (when you re-record a phrase multiple times — keeps the last, best one)
-- **Generates subtitles** with dynamic styling (accent words, position changes)
-- **Enhances audio** via Auphonic or FFmpeg normalization
-- **Exports to CapCut** — open the project and fine-tune manually
-- **Works with existing CapCut projects** — list, open, modify, and save projects with automatic backup
+1. Record your video, import into CapCut
+2. Generate subtitles in CapCut (Text → Auto Captions)
+3. Close CapCut
+4. Ask Claude: "Smart cut my 'Podcast Episode 5' project"
+5. Reopen in CapCut, review the cuts
+
+SmartCut reads CapCut's subtitles to understand where speech is. Gaps between subtitles > 1 second are cut. If the speaker repeats a phrase (duplicate take), earlier attempts are removed and the last version is kept.
+
+**No API keys required** — heuristic analysis works locally. Optionally set `OPENAI_API_KEY` for GPT-enhanced duplicate detection.
 
 ## Requirements
 
 - Python 3.10+
-- FFmpeg (must be in PATH)
-- OpenAI API key (for Whisper + GPT)
-- CapCut (for final editing)
-
-### Installing FFmpeg
-
-**Mac:**
-```bash
-brew install ffmpeg
-```
-
-**Windows:**
-```bash
-winget install ffmpeg
-```
+- CapCut (for editing and subtitle generation)
 
 ## Installation
 
@@ -39,120 +28,68 @@ source venv/bin/activate  # Windows: venv\Scripts\activate
 pip install -e .
 ```
 
-## Claude Desktop Setup
+For optional OpenAI-enhanced duplicate detection:
+```bash
+pip install -e ".[openai]"
+```
 
-Open Claude Desktop config:
-- **Mac:** `~/Library/Application Support/Claude/claude_desktop_config.json`
-- **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
+## Claude Code / Claude Desktop Setup
 
-Add:
+Add to MCP config:
 
 ```json
 {
   "mcpServers": {
     "smartcut": {
       "command": "/path/to/capcut-ai-editor/venv/bin/python",
-      "args": ["-m", "smartcut.server"],
-      "env": {
-        "OPENAI_API_KEY": "sk-..."
-      }
+      "args": ["-m", "smartcut.server"]
     }
   }
 }
 ```
 
-Replace `/path/to/capcut-ai-editor` with the actual path to the project.
-
-**Optional** (for audio enhancement via Auphonic):
+Optional env for GPT-enhanced duplicates:
 ```json
 "env": {
-  "OPENAI_API_KEY": "sk-...",
-  "AUPHONIC_API_KEY": "...",
-  "AUPHONIC_PRESET_UUID": "..."
+  "OPENAI_API_KEY": "sk-..."
 }
 ```
 
-Restart Claude Desktop.
-
 ## Usage
 
-In chat with Claude, just describe what you need:
-
-**Basic processing:**
-```
-Process video /Users/me/Desktop/video.mov — remove pauses and duplicates
-```
-
-**With subtitles:**
-```
-Process video.mov, add subtitles with accent words
-```
-
-**With audio enhancement:**
-```
-Process video.mov, enhance audio via Auphonic
-```
-
-**Export to video file (without CapCut):**
-```
-Cut pauses from video.mov and save as video_cut.mov
-```
-
-**Transcription only:**
-```
-Transcribe video.mov
-```
-
-## Working with Existing CapCut Projects
-
-SmartCut can work with projects you've already created in CapCut.
-
-**List all CapCut projects:**
+**List projects:**
 ```
 Show me my CapCut projects
 ```
 
-**Open a specific project:**
+**Inspect a project:**
 ```
 Open CapCut project "My Vlog"
 ```
 
-**Add subtitles to existing project:**
+**Smart cut (main function):**
 ```
-Add subtitles to my "Interview" CapCut project
-```
-
-**Apply smart_cut to existing project:**
-```
-Remove pauses and duplicates from my "Podcast Episode 5" project
+Smart cut my "Podcast Episode 5" project
 ```
 
-All modifications create a backup copy of the project (original stays untouched).
+**With OpenAI enhancement:**
+```
+Smart cut "My Video" with use_openai=true
+```
 
-## After Processing
-
-1. Open CapCut
-2. Find the project in drafts (may need to restart CapCut)
-3. Review and fine-tune the edit manually
-4. Export the final video
+**Warning:** Smart cut modifies the project in place (no backup). Make a copy in CapCut first if you want to keep the original.
 
 ## Environment Variables
 
 | Variable | Required | Description |
 |----------|----------|-------------|
-| OPENAI_API_KEY | Yes | OpenAI API key |
-| AUPHONIC_API_KEY | No | Auphonic API key (for audio enhancement) |
-| AUPHONIC_PRESET_UUID | No | Auphonic preset UUID |
+| OPENAI_API_KEY | No | OpenAI API key (for GPT-enhanced duplicate detection) |
 | CAPCUT_DRAFTS_DIR | No | Path to CapCut drafts folder (auto-detected) |
-| SMARTCUT_ALLOWED_TARGETS | No | What can be modified: `capcut` (default), `source`, or `all` |
 
 ## Troubleshooting
 
-**"FFmpeg not found"**
-Install FFmpeg and make sure it's in PATH: `ffmpeg -version`
+**"No auto-generated subtitles found"**
+Open the project in CapCut, select the video track, use Text → Auto Captions, save, then try again.
 
-**CapCut doesn't see the project**
-Restart CapCut. Check that the video path is correct (video must exist).
-
-**Whisper API error**
-Check OPENAI_API_KEY. Make sure the account has credits.
+**CapCut doesn't see changes**
+Restart CapCut. It monitors the drafts folder but sometimes needs a restart.

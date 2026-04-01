@@ -1,19 +1,39 @@
 """CapCut project reader and modifier."""
 
+import copy
 import json
-import shutil
 import time
+import uuid
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
 
 from smartcut.config import MICROSECONDS_PER_SECOND
-from smartcut.core.capcut_draft import CapCutDraft, TextStyle, generate_uuid
 from smartcut.core.models import (
     CapCutProjectData,
+    CapCutSubtitleSegment,
     ExistingTextSegment,
     ExistingVideoMaterial,
     ExistingVideoSegment,
 )
+
+
+def generate_uuid() -> str:
+    """Generate a UUID string for CapCut objects."""
+    return str(uuid.uuid4()).upper()
+
+
+@dataclass
+class TextStyle:
+    """Text styling for subtitle segments."""
+
+    font_size: int = 8
+    font_color: str = "#FFFFFF"
+    background_color: Optional[str] = "#000000"
+    background_alpha: float = 0.6
+    position_y: float = 0.8
+    bold: bool = False
+    font_path: str = ""
 
 
 class CapCutProject:
@@ -24,12 +44,6 @@ class CapCutProject:
     """
 
     def __init__(self, project_path: Path):
-        """
-        Initialize with project path.
-
-        Args:
-            project_path: Path to project folder (containing draft_info.json).
-        """
         self.project_path = project_path
         self.content_file = project_path / "draft_info.json"
         self.meta_file = project_path / "draft_meta_info.json"
@@ -57,38 +71,31 @@ class CapCutProject:
 
     @property
     def project_id(self) -> str:
-        """Get project UUID."""
         return self._content.get("id", self.project_path.name)
 
     @property
     def project_name(self) -> str:
-        """Get project name from meta file (primary) or content file (fallback)."""
         return self._meta.get("draft_name") or self._content.get("name") or "Untitled"
 
     @project_name.setter
     def project_name(self, value: str) -> None:
-        """Set project name."""
         self._content["name"] = value
         self._meta["draft_name"] = value
 
     @property
     def duration_us(self) -> int:
-        """Get project duration in microseconds."""
         return self._content.get("duration", 0)
 
     @property
     def duration(self) -> float:
-        """Get project duration in seconds."""
         return self.duration_us / MICROSECONDS_PER_SECOND
 
     @property
     def canvas_width(self) -> int:
-        """Get canvas width."""
         return self._content.get("canvas_config", {}).get("width", 1080)
 
     @property
     def canvas_height(self) -> int:
-        """Get canvas height."""
         return self._content.get("canvas_config", {}).get("height", 1920)
 
     def get_video_materials(self) -> list[ExistingVideoMaterial]:
@@ -107,7 +114,7 @@ class CapCutProject:
         return materials
 
     def get_video_segments(self) -> list[ExistingVideoSegment]:
-        """Get all video segments from video track."""
+        """Get all video segments from video tracks."""
         segments = []
         materials_map = {m.id: m for m in self.get_video_materials()}
 
@@ -121,7 +128,7 @@ class CapCutProject:
                 source_path = material.path if material else ""
 
                 target = seg.get("target_timerange", {})
-                source = seg.get("source_timerange", {})
+                source = seg.get("source_timerange") or {}
 
                 timeline_start = target.get("start", 0) / MICROSECONDS_PER_SECOND
                 duration = target.get("duration", 0) / MICROSECONDS_PER_SECOND
@@ -157,7 +164,6 @@ class CapCutProject:
                 material_id = seg.get("material_id", "")
                 material = text_materials.get(material_id, {})
 
-                # Parse text from content JSON
                 content_str = material.get("content", "{}")
                 try:
                     content = json.loads(content_str)
@@ -179,6 +185,77 @@ class CapCutProject:
                     )
                 )
 
+        return segments
+
+    def get_subtitle_segments(self) -> list[CapCutSubtitleSegment]:
+        """
+        Get auto-generated subtitle segments from CapCut.
+
+        CapCut stores auto-subtitles as text materials with:
+        - recognize_task_id != "" (marks it as auto-generated)
+        - words.text, words.start_time, words.end_time (word-level timing in ms)
+        - content JSON field has display text
+
+        Text track segments have target_timerange (microseconds) for absolute position.
+
+        Returns:
+            List of CapCutSubtitleSegment sorted by timeline position.
+        """
+        # Step 1: Collect text materials with recognize_task_id
+        subtitle_materials: dict[str, dict] = {}
+        for mat in self._content.get("materials", {}).get("texts", []):
+            recognize_id = mat.get("recognize_task_id", "")
+            if not recognize_id:
+                continue
+
+            content_str = mat.get("content", "{}")
+            try:
+                content = json.loads(content_str)
+                display_text = content.get("text", "")
+            except json.JSONDecodeError:
+                display_text = ""
+
+            words_data = mat.get("words", {})
+
+            subtitle_materials[mat.get("id", "")] = {
+                "text": display_text,
+                "words_text": words_data.get("text", []),
+                "words_start_ms": words_data.get("start_time", []),
+                "words_end_ms": words_data.get("end_time", []),
+                "recognize_task_id": recognize_id,
+            }
+
+        if not subtitle_materials:
+            return []
+
+        # Step 2: Find segments on text tracks that reference these materials
+        segments = []
+        for track in self._content.get("tracks", []):
+            if track.get("type") != "text":
+                continue
+            for seg in track.get("segments", []):
+                material_id = seg.get("material_id", "")
+                if material_id not in subtitle_materials:
+                    continue
+
+                mat_data = subtitle_materials[material_id]
+                target = seg.get("target_timerange", {})
+
+                segments.append(
+                    CapCutSubtitleSegment(
+                        segment_id=seg.get("id", ""),
+                        material_id=material_id,
+                        text=mat_data["text"],
+                        words_text=mat_data["words_text"],
+                        words_start_ms=mat_data["words_start_ms"],
+                        words_end_ms=mat_data["words_end_ms"],
+                        timeline_start_us=target.get("start", 0),
+                        timeline_duration_us=target.get("duration", 0),
+                        recognize_task_id=mat_data["recognize_task_id"],
+                    )
+                )
+
+        segments.sort(key=lambda s: s.timeline_start_us)
         return segments
 
     def get_source_video_paths(self) -> list[Path]:
@@ -203,6 +280,127 @@ class CapCutProject:
             text_segments=self.get_text_segments(),
         )
 
+    def remove_time_ranges(self, ranges_to_cut: list[tuple[int, int]]) -> None:
+        """
+        Remove specified time ranges from ALL tracks (video, audio, text).
+
+        For each range to cut:
+        - Segments fully inside the range are removed
+        - Segments partially overlapping are trimmed/split
+        - All subsequent segments are shifted left to close gaps
+
+        Args:
+            ranges_to_cut: List of (start_us, end_us) ranges to remove.
+                           Must be sorted by start time and non-overlapping.
+        """
+        if not ranges_to_cut:
+            return
+
+        for track in self._content.get("tracks", []):
+            segments = track.get("segments", [])
+            if not segments:
+                continue
+
+            track_type = track.get("type", "")
+            new_segments = self._apply_cuts_to_segments(
+                segments, ranges_to_cut, track_type,
+            )
+            track["segments"] = new_segments
+
+        # Also remove text materials that no longer have segments referencing them
+        self._cleanup_orphaned_text_materials()
+
+        self._update_duration()
+
+    def _apply_cuts_to_segments(
+        self,
+        segments: list[dict],
+        ranges_to_cut: list[tuple[int, int]],
+        track_type: str,
+    ) -> list[dict]:
+        """
+        Apply cut ranges to a list of segments, returning surviving segments
+        with adjusted positions.
+
+        For each segment:
+        1. Subtract all cut ranges from its time span → remaining pieces
+        2. For video/audio: adjust source_timerange for each piece
+        3. Shift all pieces left based on total cut duration before them
+        """
+        surviving = []
+
+        for seg in segments:
+            target = seg.get("target_timerange", {})
+            seg_start = target.get("start", 0)
+            seg_dur = target.get("duration", 0)
+            seg_end = seg_start + seg_dur
+
+            if seg_dur <= 0:
+                continue
+
+            # Find remaining pieces after subtracting cuts
+            pieces = [(seg_start, seg_end)]
+            for cut_start, cut_end in ranges_to_cut:
+                new_pieces = []
+                for piece_start, piece_end in pieces:
+                    if cut_end <= piece_start or cut_start >= piece_end:
+                        new_pieces.append((piece_start, piece_end))
+                    else:
+                        if piece_start < cut_start:
+                            new_pieces.append((piece_start, cut_start))
+                        if piece_end > cut_end:
+                            new_pieces.append((cut_end, piece_end))
+                pieces = new_pieces
+
+            if not pieces:
+                continue
+
+            # Build new segments from remaining pieces
+            source = seg.get("source_timerange")
+            has_source = source is not None and isinstance(source, dict)
+            source_start_us = source.get("start", 0) if has_source else 0
+
+            for piece_start, piece_end in pieces:
+                piece_dur = piece_end - piece_start
+                if piece_dur <= 0:
+                    continue
+
+                new_seg = copy.deepcopy(seg)
+                new_seg["id"] = generate_uuid()
+
+                # Calculate shifted target position (close gaps from cuts before this piece)
+                shift = _compute_shift(piece_start, ranges_to_cut)
+                new_seg["target_timerange"] = {
+                    "start": piece_start - shift,
+                    "duration": piece_dur,
+                }
+
+                # Adjust source_timerange for video/audio (text source_timerange is null)
+                if has_source and track_type in ("video", "audio"):
+                    offset_from_seg_start = piece_start - seg_start
+                    new_seg["source_timerange"] = {
+                        "start": source_start_us + offset_from_seg_start,
+                        "duration": piece_dur,
+                    }
+
+                surviving.append(new_seg)
+
+        return surviving
+
+    def _cleanup_orphaned_text_materials(self) -> None:
+        """Remove text materials that are no longer referenced by any segment."""
+        referenced_material_ids = set()
+        for track in self._content.get("tracks", []):
+            if track.get("type") != "text":
+                continue
+            for seg in track.get("segments", []):
+                referenced_material_ids.add(seg.get("material_id", ""))
+
+        texts = self._content.get("materials", {}).get("texts", [])
+        self._content["materials"]["texts"] = [
+            m for m in texts if m.get("id", "") in referenced_material_ids
+        ]
+
     def add_text_track(
         self,
         subtitles: list[dict],
@@ -220,13 +418,11 @@ class CapCutProject:
 
         style = style or TextStyle()
 
-        # Get or create text materials list
         if "texts" not in self._content.get("materials", {}):
             self._content.setdefault("materials", {})["texts"] = []
 
         text_materials = self._content["materials"]["texts"]
 
-        # Create text segments
         new_segments = []
         position_toggle = False
 
@@ -236,23 +432,19 @@ class CapCutProject:
             duration_us = end_us - start_us
             text = sub["text"]
 
-            # Alternate position for dynamic style
-            if style.position_y == 0.8:  # Default bottom
+            if style.position_y == 0.8:
                 position_y = 0.2 if position_toggle else 0.8
                 position_toggle = not position_toggle
             else:
                 position_y = style.position_y
 
-            # Create material
             material_id = generate_uuid()
             text_material = self._build_text_material(material_id, text, style)
             text_materials.append(text_material)
 
-            # Create segment
             segment = self._build_text_segment(material_id, start_us, duration_us, position_y)
             new_segments.append(segment)
 
-        # Find or create text track
         text_track = None
         for track in self._content.get("tracks", []):
             if track.get("type") == "text":
@@ -271,10 +463,7 @@ class CapCutProject:
             }
             self._content.setdefault("tracks", []).append(text_track)
 
-        # Add segments to track
         text_track["segments"].extend(new_segments)
-
-        # Update duration if needed
         self._update_duration()
 
     def _build_text_material(self, material_id: str, text: str, style: TextStyle) -> dict:
@@ -338,128 +527,6 @@ class CapCutProject:
             "speed": 1.0,
         }
 
-    def update_video_segments(self, new_segments: list[dict]) -> None:
-        """
-        Replace video segments with new ones.
-
-        Args:
-            new_segments: List of dicts with segment data.
-        """
-        for track in self._content.get("tracks", []):
-            if track.get("type") == "video":
-                track["segments"] = new_segments
-                break
-
-        self._update_duration()
-
-    def apply_cut_plan(self, cut_plan: dict, video_path: Path) -> None:
-        """
-        Apply cut plan to video segments.
-
-        Replaces video track segments with new ones based on keep_segments from cut_plan.
-
-        Args:
-            cut_plan: Dict with 'keep_segments' list containing {start, end} in seconds.
-            video_path: Source video path (to find matching material).
-        """
-        keep_segments = cut_plan.get("keep_segments", [])
-        if not keep_segments:
-            return
-
-        # Find video track
-        video_track = self._find_video_track()
-        if video_track is None:
-            return
-
-        # Find material_id for this video
-        material_id = self._find_material_id_for_path(video_path)
-        if material_id is None:
-            return
-
-        # Get existing segment as template (for copying default fields)
-        existing_segments = video_track.get("segments", [])
-        template_segment = existing_segments[0] if existing_segments else {}
-
-        # Build new segments from keep_segments
-        new_segments = []
-        timeline_offset_us = 0
-
-        for seg in keep_segments:
-            source_start_us = int(seg["start"] * MICROSECONDS_PER_SECOND)
-            source_end_us = int(seg["end"] * MICROSECONDS_PER_SECOND)
-            duration_us = source_end_us - source_start_us
-
-            new_segment = self._build_video_segment(
-                material_id=material_id,
-                timeline_start_us=timeline_offset_us,
-                source_start_us=source_start_us,
-                duration_us=duration_us,
-                template=template_segment,
-            )
-            new_segments.append(new_segment)
-            timeline_offset_us += duration_us
-
-        # Replace video track segments
-        video_track["segments"] = new_segments
-        self._update_duration()
-
-    def _find_video_track(self) -> Optional[dict]:
-        """Find the video track in tracks list."""
-        for track in self._content.get("tracks", []):
-            if track.get("type") == "video":
-                return track
-        return None
-
-    def _find_material_id_for_path(self, video_path: Path) -> Optional[str]:
-        """Find material_id for a video path."""
-        video_path_str = str(video_path)
-        for mat in self._content.get("materials", {}).get("videos", []):
-            if mat.get("path") == video_path_str:
-                return mat.get("id")
-        return None
-
-    def _build_video_segment(
-        self,
-        material_id: str,
-        timeline_start_us: int,
-        source_start_us: int,
-        duration_us: int,
-        template: dict = None,
-    ) -> dict:
-        """
-        Build a video segment JSON.
-
-        Args:
-            material_id: Video material ID.
-            timeline_start_us: Start position on timeline (microseconds).
-            source_start_us: Start position in source video (microseconds).
-            duration_us: Segment duration (microseconds).
-            template: Existing segment to copy default fields from.
-        """
-        # Start with template or minimal defaults
-        if template:
-            segment = template.copy()
-        else:
-            segment = {
-                "clip": {
-                    "alpha": 1.0,
-                    "flip": {"horizontal": False, "vertical": False},
-                    "rotation": 0.0,
-                    "scale": {"x": 1.0, "y": 1.0},
-                    "transform": {"x": 0.0, "y": 0.0},
-                },
-                "speed": 1.0,
-                "render_index": 0,
-            }
-
-        # Override with our values
-        segment["id"] = generate_uuid()
-        segment["material_id"] = material_id
-        segment["target_timerange"] = {"start": timeline_start_us, "duration": duration_us}
-        segment["source_timerange"] = {"start": source_start_us, "duration": duration_us}
-
-        return segment
-
     def _update_duration(self) -> None:
         """Recalculate and update project duration."""
         max_end = 0
@@ -475,60 +542,27 @@ class CapCutProject:
 
     def save(self) -> None:
         """Save project to disk."""
-        # Update modification time
         current_time = int(time.time())
         self._content["update_time"] = current_time
         self._meta["tm_draft_modified"] = current_time
 
-        # Write content file
         with open(self.content_file, "w", encoding="utf-8") as f:
             json.dump(self._content, f, ensure_ascii=False, indent=2)
 
-        # Write meta file
         with open(self.meta_file, "w", encoding="utf-8") as f:
             json.dump(self._meta, f, ensure_ascii=False, indent=2)
 
-    def create_copy(self, new_name: str) -> "CapCutProject":
-        """
-        Create a copy of this project with a new name.
 
-        Uses readable folder name directly to avoid CapCut's FSEvents-based
-        folder renaming which would cause race conditions with UUID-named folders.
+def _compute_shift(position_us: int, ranges_to_cut: list[tuple[int, int]]) -> int:
+    """
+    Compute how much a position should shift left due to cuts before it.
 
-        Args:
-            new_name: Name for the copied project.
-
-        Returns:
-            New CapCutProject instance for the copy.
-        """
-        # Use readable name directly for folder (not UUID)
-        # This prevents CapCut from renaming the folder before we can access it
-        new_path = self.project_path.parent / new_name
-
-        # Handle duplicates: add (1), (2), etc. if folder exists
-        counter = 1
-        base_name = new_name
-        while new_path.exists():
-            new_name = f"{base_name} ({counter})"
-            new_path = self.project_path.parent / new_name
-            counter += 1
-
-        # Copy project folder
-        shutil.copytree(self.project_path, new_path)
-
-        # Load the copy
-        copy_project = CapCutProject(new_path)
-
-        # Generate new UUID for internal IDs
-        new_id = generate_uuid()
-
-        # Update IDs and name
-        copy_project._content["id"] = new_id
-        copy_project._meta["draft_id"] = new_id
-        copy_project._meta["draft_root_path"] = str(new_path)
-        copy_project.project_name = new_name
-
-        # Save changes
-        copy_project.save()
-
-        return copy_project
+    For a given timeline position, sum up the durations of all cut ranges
+    that end before (or overlap with) that position.
+    """
+    shift = 0
+    for cut_start, cut_end in ranges_to_cut:
+        if cut_start >= position_us:
+            break
+        shift += min(cut_end, position_us) - cut_start
+    return shift

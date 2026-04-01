@@ -1,38 +1,34 @@
-"""MCP tools for working with existing CapCut projects."""
+"""MCP tools for working with CapCut projects — smart cut via auto-generated subtitles."""
 
+import re
+from difflib import SequenceMatcher
 from pathlib import Path
-from typing import Literal, Optional
+from typing import Optional
 
-from smartcut.config import can_modify_capcut, get_settings
-from smartcut.core.capcut_draft import TextStyle
+from smartcut.config import (
+    DUPLICATE_SIMILARITY_THRESHOLD,
+    MICROSECONDS_PER_SECOND,
+    SILENCE_THRESHOLD_SEC,
+    get_settings,
+)
 from smartcut.core.capcut_finder import (
     find_project_by_name,
     get_capcut_drafts_dir,
     list_projects,
 )
 from smartcut.core.capcut_reader import CapCutProject
-from smartcut.tools.analyze import analyze_content
-from smartcut.tools.subtitles import generate_subtitles
-from smartcut.tools.transcribe import transcribe
+from smartcut.core.models import CapCutSubtitleSegment
 
+
+# ---------------------------------------------------------------------------
+# Tool: list_capcut_projects
+# ---------------------------------------------------------------------------
 
 async def list_capcut_projects(
     drafts_dir: Optional[str] = None,
-    include_incomplete: bool = False,
 ) -> dict:
-    """
-    List all CapCut projects in drafts directory.
-
-    Args:
-        drafts_dir: Path to drafts directory. Auto-detected if not specified.
-        include_incomplete: If True, also list projects without draft_info.json.
-
-    Returns:
-        List of projects with metadata.
-    """
+    """List all CapCut projects in drafts directory."""
     drafts_path = Path(drafts_dir) if drafts_dir else None
-
-    # Get drafts directory
     detected_dir = drafts_path or get_capcut_drafts_dir()
 
     if detected_dir is None:
@@ -42,47 +38,328 @@ async def list_capcut_projects(
             "message": "CapCut drafts directory not found. Is CapCut installed?",
         }
 
-    # Get complete projects
     projects = list_projects(detected_dir, require_content=True)
-
-    # Optionally get incomplete projects too
-    incomplete_count = 0
-    if include_incomplete:
-        all_projects = list_projects(detected_dir, require_content=False)
-        incomplete_count = len(all_projects) - len(projects)
-    else:
-        # Just count incomplete
-        all_projects = list_projects(detected_dir, require_content=False)
-        incomplete_count = len(all_projects) - len(projects)
+    all_projects = list_projects(detected_dir, require_content=False)
+    incomplete_count = len(all_projects) - len(projects)
 
     message = f"Found {len(projects)} projects"
     if incomplete_count > 0:
-        message += f" ({incomplete_count} incomplete projects skipped - missing draft_info.json)"
+        message += f" ({incomplete_count} incomplete — missing draft_info.json)"
 
     return {
         "projects": [p.model_dump() for p in projects],
         "drafts_dir": str(detected_dir),
         "count": len(projects),
-        "incomplete_count": incomplete_count,
         "message": message if projects else "No complete projects found",
     }
 
+
+# ---------------------------------------------------------------------------
+# Tool: open_capcut_project
+# ---------------------------------------------------------------------------
 
 async def open_capcut_project(
     project_path: Optional[str] = None,
     project_name: Optional[str] = None,
 ) -> dict:
-    """
-    Open existing CapCut project and return its structure.
+    """Open existing CapCut project and return its structure."""
+    path = _resolve_project_path(project_path, project_name)
+    if isinstance(path, dict):
+        return path  # error dict
 
-    Args:
-        project_path: Full path to project folder.
-        project_name: Project name to search for (partial match).
+    project = CapCutProject.load(path)
+    data = project.to_project_data()
+    subtitles = project.get_subtitle_segments()
 
-    Returns:
-        Project structure with segments and materials.
+    return {
+        "project": data.model_dump(),
+        "source_videos": [str(p) for p in project.get_source_video_paths()],
+        "auto_subtitles_count": len(subtitles),
+        "auto_subtitles": [
+            {"text": s.text, "start_sec": round(s.timeline_start_sec, 2), "end_sec": round(s.timeline_end_sec, 2)}
+            for s in subtitles
+        ],
+        "message": (
+            f"Loaded '{data.project_name}' — "
+            f"{len(data.video_segments)} video segments, "
+            f"{len(subtitles)} auto-subtitles"
+        ),
+    }
+
+
+# ---------------------------------------------------------------------------
+# Tool: smart_cut_project
+# ---------------------------------------------------------------------------
+
+async def smart_cut_project(
+    project_path: Optional[str] = None,
+    project_name: Optional[str] = None,
+    silence_threshold_sec: float = SILENCE_THRESHOLD_SEC,
+    similarity_threshold: float = DUPLICATE_SIMILARITY_THRESHOLD,
+    use_openai: bool = False,
+) -> dict:
     """
-    # Find project path
+    Smart cut a CapCut project using its auto-generated subtitles.
+
+    Reads CapCut's subtitles to heuristically find gaps and duplicate takes,
+    then removes them directly in the project (no backup copy).
+
+    Set use_openai=True for GPT-enhanced duplicate detection (requires OPENAI_API_KEY).
+    """
+    path = _resolve_project_path(project_path, project_name)
+    if isinstance(path, dict):
+        return path  # error dict
+
+    project = CapCutProject.load(path)
+
+    # Read auto-generated subtitles
+    subtitles = project.get_subtitle_segments()
+    if not subtitles:
+        return {
+            "error": "No auto-generated subtitles found in project",
+            "suggestion": (
+                "Open this project in CapCut, select the video track, "
+                "and use Text → Auto Captions to generate subtitles first. "
+                "Then run this tool again."
+            ),
+            "project_path": str(path),
+            "project_name": project.project_name,
+        }
+
+    threshold_us = int(silence_threshold_sec * MICROSECONDS_PER_SECOND)
+
+    # Step 1: Find gaps (silences between subtitles)
+    gap_ranges = find_gaps(subtitles, threshold_us)
+
+    # Step 2: Find duplicate takes
+    duplicate_ranges = find_duplicate_takes(subtitles, similarity_threshold)
+
+    # Step 3: Optional OpenAI enhancement
+    if use_openai:
+        settings = get_settings()
+        if not settings.openai_api_key:
+            raise ValueError(
+                "use_openai=True but OPENAI_API_KEY is not set. "
+                "Set it in environment or .env file, or use use_openai=False for heuristic mode."
+            )
+        llm_ranges = _detect_duplicates_with_llm(subtitles, settings.openai_api_key)
+        if llm_ranges:
+            duplicate_ranges = llm_ranges
+
+    # Step 4: Merge all ranges
+    all_ranges = gap_ranges + duplicate_ranges
+    merged_ranges = merge_time_ranges(all_ranges)
+
+    if not merged_ranges:
+        return {
+            "project_path": str(path),
+            "project_name": project.project_name,
+            "message": "No cuts needed — no significant gaps or duplicates found",
+            "stats": {
+                "gaps_found": 0,
+                "duplicates_found": 0,
+                "time_saved": "0:00",
+            },
+        }
+
+    # Step 5: Calculate stats before cutting
+    total_cut_us = sum(end - start for start, end in merged_ranges)
+    original_duration_us = project.duration_us
+
+    # Step 6: Apply cuts
+    project.remove_time_ranges(merged_ranges)
+
+    # Step 7: Save directly (no backup)
+    project.save()
+
+    return {
+        "project_path": str(path),
+        "project_name": project.project_name,
+        "stats": {
+            "original_duration": _format_duration_us(original_duration_us),
+            "final_duration": _format_duration_us(original_duration_us - total_cut_us),
+            "time_saved": _format_duration_us(total_cut_us),
+            "gaps_removed": len(gap_ranges),
+            "duplicates_removed": len(duplicate_ranges),
+            "total_cuts": len(merged_ranges),
+            "subtitles_analyzed": len(subtitles),
+            "used_openai": use_openai,
+        },
+        "cuts_detail": [
+            {
+                "start_sec": round(s / MICROSECONDS_PER_SECOND, 2),
+                "end_sec": round(e / MICROSECONDS_PER_SECOND, 2),
+                "duration_sec": round((e - s) / MICROSECONDS_PER_SECOND, 2),
+            }
+            for s, e in merged_ranges
+        ],
+        "message": (
+            f"Smart cut applied to '{project.project_name}'. "
+            f"Removed {len(gap_ranges)} gaps and {len(duplicate_ranges)} duplicate takes, "
+            f"saving {_format_duration_us(total_cut_us)}."
+        ),
+    }
+
+
+# ---------------------------------------------------------------------------
+# Heuristic analysis engine
+# ---------------------------------------------------------------------------
+
+def normalize_text(text: str) -> str:
+    """Normalize text for comparison: lowercase, remove punctuation, normalize whitespace."""
+    text = text.lower().strip()
+    text = re.sub(r"[^\w\s]", "", text)
+    text = re.sub(r"\s+", " ", text)
+    return text
+
+
+def compute_text_similarity(text_a: str, text_b: str) -> float:
+    """
+    Compute similarity between two texts.
+
+    Uses max of:
+    - Jaccard word overlap (catches reordered duplicates)
+    - SequenceMatcher ratio (catches sequential similarity)
+    """
+    norm_a = normalize_text(text_a)
+    norm_b = normalize_text(text_b)
+
+    words_a = set(norm_a.split())
+    words_b = set(norm_b.split())
+
+    if not words_a or not words_b:
+        return 0.0
+
+    intersection = words_a & words_b
+    union = words_a | words_b
+    jaccard = len(intersection) / len(union)
+
+    seq_ratio = SequenceMatcher(None, norm_a, norm_b).ratio()
+
+    return max(jaccard, seq_ratio)
+
+
+def find_gaps(
+    subtitles: list[CapCutSubtitleSegment],
+    threshold_us: int,
+) -> list[tuple[int, int]]:
+    """
+    Find gaps between consecutive subtitle segments that exceed the threshold.
+
+    A gap is the silence between one subtitle ending and the next beginning.
+    Only gaps BETWEEN subtitles are detected (not before first or after last).
+    """
+    gaps = []
+    for i in range(len(subtitles) - 1):
+        current_end = subtitles[i].timeline_end_us
+        next_start = subtitles[i + 1].timeline_start_us
+        gap = next_start - current_end
+        if gap > threshold_us:
+            gaps.append((current_end, next_start))
+    return gaps
+
+
+def find_duplicate_takes(
+    subtitles: list[CapCutSubtitleSegment],
+    similarity_threshold: float = DUPLICATE_SIMILARITY_THRESHOLD,
+) -> list[tuple[int, int]]:
+    """
+    Find duplicate takes by comparing consecutive subtitle texts.
+
+    When a person restarts a phrase, consecutive segments will have
+    high text similarity. We keep the LAST take in each group and
+    mark earlier ones for removal.
+
+    Returns time ranges to cut (each earlier duplicate's full span).
+    """
+    if len(subtitles) < 2:
+        return []
+
+    # Build groups of consecutive similar segments
+    groups: list[list[int]] = []
+    current_group = [0]
+
+    for i in range(1, len(subtitles)):
+        similarity = compute_text_similarity(
+            subtitles[i - 1].text,
+            subtitles[i].text,
+        )
+        if similarity >= similarity_threshold:
+            current_group.append(i)
+        else:
+            if len(current_group) > 1:
+                groups.append(current_group)
+            current_group = [i]
+
+    if len(current_group) > 1:
+        groups.append(current_group)
+
+    # For each group, mark all but the last for removal
+    ranges_to_cut = []
+    for group in groups:
+        to_remove = group[:-1]
+        for idx in to_remove:
+            seg = subtitles[idx]
+            ranges_to_cut.append((seg.timeline_start_us, seg.timeline_end_us))
+
+    return ranges_to_cut
+
+
+def merge_time_ranges(ranges: list[tuple[int, int]]) -> list[tuple[int, int]]:
+    """Merge overlapping or adjacent time ranges. Returns sorted, non-overlapping list."""
+    if not ranges:
+        return []
+
+    sorted_ranges = sorted(ranges, key=lambda r: r[0])
+    merged = [sorted_ranges[0]]
+
+    for start, end in sorted_ranges[1:]:
+        if start <= merged[-1][1]:
+            merged[-1] = (merged[-1][0], max(merged[-1][1], end))
+        else:
+            merged.append((start, end))
+
+    return merged
+
+
+# ---------------------------------------------------------------------------
+# Optional OpenAI-enhanced duplicate detection
+# ---------------------------------------------------------------------------
+
+def _detect_duplicates_with_llm(
+    subtitles: list[CapCutSubtitleSegment],
+    api_key: str,
+) -> list[tuple[int, int]]:
+    """Use OpenAI GPT to detect duplicate takes more accurately."""
+    from smartcut.core.llm_client import LLMClient
+
+    paragraphs = [
+        {"id": i, "text": s.text}
+        for i, s in enumerate(subtitles)
+    ]
+
+    client = LLMClient(api_key=api_key)
+    result = client.detect_duplicates(paragraphs)
+
+    ranges_to_cut = []
+    for group in result.groups:
+        for idx in group.remove:
+            if 0 <= idx < len(subtitles):
+                seg = subtitles[idx]
+                ranges_to_cut.append((seg.timeline_start_us, seg.timeline_end_us))
+
+    return ranges_to_cut
+
+
+# ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
+
+def _resolve_project_path(
+    project_path: Optional[str],
+    project_name: Optional[str],
+) -> Path | dict:
+    """Resolve project path from either path or name. Returns Path or error dict."""
     if project_path:
         path = Path(project_path)
     elif project_name:
@@ -93,344 +370,25 @@ async def open_capcut_project(
                 "suggestion": "Use list_capcut_projects to see available projects",
             }
     else:
-        return {
-            "error": "Either project_path or project_name must be provided",
-        }
+        return {"error": "Either project_path or project_name must be provided"}
 
     if not path.exists():
         return {"error": f"Project path not found: {path}"}
 
-    # Check for required files
-    content_file = path / "draft_info.json"
-    meta_file = path / "draft_meta_info.json"
-
-    if not content_file.exists():
-        return {
-            "error": f"Project missing draft_info.json file",
-            "path": str(path),
-            "suggestion": "This project may be incomplete or use a different CapCut version. Try opening it in CapCut first to regenerate the content file.",
-        }
-
-    try:
-        project = CapCutProject.load(path)
-        data = project.to_project_data()
-
-        return {
-            "project": data.model_dump(),
-            "source_videos": [str(p) for p in project.get_source_video_paths()],
-            "message": f"Loaded project '{data.project_name}' with {len(data.video_segments)} video segments",
-        }
-
-    except Exception as e:
-        return {
-            "error": f"Failed to load project: {e}",
-            "path": str(path),
-            "files_found": {
-                "draft_info.json": content_file.exists(),
-                "draft_meta_info.json": meta_file.exists(),
-            },
-        }
-
-
-async def add_subtitles_to_project(
-    project_path: Optional[str] = None,
-    project_name: Optional[str] = None,
-    transcription_data: Optional[dict] = None,
-    srt_path: Optional[str] = None,
-    style: Literal["dynamic", "simple"] = "dynamic",
-    language: Optional[str] = None,
-) -> dict:
-    """
-    Add subtitles to existing CapCut project.
-
-    Creates a copy of the project before making changes.
-    Original project remains untouched.
-
-    Args:
-        project_path: Full path to project folder.
-        project_name: Project name to search for.
-        transcription_data: Transcription data. If None, will transcribe video from project.
-        srt_path: Path to SRT file to import. Alternative to transcription.
-        style: Subtitle style - 'dynamic' or 'simple'.
-        language: Language for transcription.
-
-    Returns:
-        Path to modified project copy.
-    """
-    # Check if CapCut modification is allowed
-    if not can_modify_capcut():
-        return {
-            "error": "CapCut project modification is disabled",
-            "suggestion": "Set SMARTCUT_ALLOWED_TARGETS=capcut or SMARTCUT_ALLOWED_TARGETS=all to enable",
-        }
-
-    # Find project
-    if project_path:
-        path = Path(project_path)
-    elif project_name:
-        path = find_project_by_name(project_name)
-        if path is None:
-            return {"error": f"Project '{project_name}' not found"}
-    else:
-        return {"error": "Either project_path or project_name must be provided"}
-
-    try:
-        # Load original project
-        original = CapCutProject.load(path)
-        original_name = original.project_name
-
-        # Create backup copy
-        copy_name = f"{original_name} — SmartCut"
-        project = original.create_copy(copy_name)
-
-        # Get subtitles
-        if srt_path:
-            # Parse SRT file
-            subtitles = _parse_srt_file(Path(srt_path))
-        elif transcription_data:
-            # Use provided transcription
-            subtitles_result = await generate_subtitles(
-                transcription_data=transcription_data,
-                cut_plan_data={"keep_segments": []},  # No cuts, use full timeline
-                style=style,
-            )
-            subtitles = subtitles_result.get("lines", [])
-        else:
-            # Transcribe video from project
-            video_paths = project.get_source_video_paths()
-            if not video_paths:
-                return {"error": "No video files found in project"}
-
-            # Transcribe first video
-            transcription_result = await transcribe(str(video_paths[0]), language)
-
-            subtitles_result = await generate_subtitles(
-                transcription_data=transcription_result,
-                cut_plan_data={"keep_segments": []},
-                style=style,
-            )
-            subtitles = subtitles_result.get("lines", [])
-
-        if not subtitles:
-            return {"error": "No subtitles generated"}
-
-        # Create text style
-        text_style = TextStyle(
-            font_size=8,
-            font_color="#FFFFFF",
-            background_color="#000000" if style == "simple" else None,
-            background_alpha=0.6 if style == "simple" else 0.0,
-            position_y=0.8,
-        )
-
-        # Add subtitles to project copy
-        project.add_text_track(subtitles, text_style)
-        project.save()
-
-        return {
-            "original_project": str(path),
-            "modified_project": str(project.project_path),
-            "project_name": copy_name,
-            "subtitles_added": len(subtitles),
-            "message": f"Subtitles added to copy '{copy_name}'. Original project unchanged.",
-        }
-
-    except Exception as e:
-        return {"error": f"Failed to add subtitles: {e}"}
-
-
-async def smart_cut_project(
-    project_path: Optional[str] = None,
-    project_name: Optional[str] = None,
-    silence_threshold_sec: float = 3.0,
-    detect_duplicates: bool = True,
-    add_subtitles: bool = False,
-    language: Optional[str] = None,
-) -> dict:
-    """
-    Apply smart_cut to existing CapCut project.
-
-    Creates a copy of the project before making changes.
-    Processes all video clips in the project.
-
-    Args:
-        project_path: Full path to project folder.
-        project_name: Project name to search for.
-        silence_threshold_sec: Minimum pause to cut.
-        detect_duplicates: Whether to detect duplicate takes.
-        add_subtitles: Whether to add subtitles.
-        language: Language for transcription.
-
-    Returns:
-        Path to modified project copy with statistics.
-    """
-    # Check if CapCut modification is allowed
-    if not can_modify_capcut():
-        return {
-            "error": "CapCut project modification is disabled",
-            "suggestion": "Set SMARTCUT_ALLOWED_TARGETS=capcut or SMARTCUT_ALLOWED_TARGETS=all to enable",
-        }
-
-    # Find project
-    if project_path:
-        path = Path(project_path)
-    elif project_name:
-        path = find_project_by_name(project_name)
-        if path is None:
-            return {"error": f"Project '{project_name}' not found"}
-    else:
-        return {"error": "Either project_path or project_name must be provided"}
-
-    # Check for required files
     content_file = path / "draft_info.json"
     if not content_file.exists():
         return {
-            "error": f"Project missing draft_info.json file",
+            "error": "Project missing draft_info.json",
             "path": str(path),
-            "suggestion": "This project may be incomplete. Try opening it in CapCut first, make any edit, and save.",
+            "suggestion": "Open it in CapCut first to regenerate the content file.",
         }
 
-    try:
-        # Load original project
-        original = CapCutProject.load(path)
-        original_name = original.project_name
-
-        # Create backup copy
-        copy_name = f"{original_name} — SmartCut"
-        project = original.create_copy(copy_name)
-
-        # Get all video sources
-        video_paths = project.get_source_video_paths()
-        if not video_paths:
-            return {
-                "error": "No video files found in project",
-                "suggestion": "The project doesn't contain video materials. Add a video in CapCut first.",
-            }
-
-        # Process each video and collect results
-        all_stats = {
-            "original_duration": 0,
-            "kept_duration": 0,
-            "duplicates_removed": 0,
-            "silences_removed": 0,
-            "videos_processed": 0,
-        }
-
-        all_subtitles = []
-
-        for video_path in video_paths:
-            if not video_path.exists():
-                continue
-
-            # Transcribe
-            transcription_result = await transcribe(str(video_path), language)
-
-            # Analyze
-            analysis_result = await analyze_content(
-                transcription_result,
-                silence_threshold_sec=silence_threshold_sec,
-                duplicate_detection=detect_duplicates,
-            )
-
-            cut_plan = analysis_result.get("cut_plan", {})
-            stats = cut_plan.get("stats", {})
-            all_stats["original_duration"] += stats.get("original_duration", 0)
-            all_stats["kept_duration"] += stats.get("kept_duration", 0)
-            all_stats["duplicates_removed"] += stats.get("duplicates_removed", 0)
-            all_stats["silences_removed"] += stats.get("silences_removed", 0)
-            all_stats["videos_processed"] += 1
-
-            # Apply cuts to video segments in the project
-            project.apply_cut_plan(cut_plan, video_path)
-
-            # Generate subtitles if requested
-            if add_subtitles:
-                subtitles_result = await generate_subtitles(
-                    transcription_data=transcription_result,
-                    cut_plan_data=analysis_result.get("cut_plan", {}),
-                    style="dynamic",
-                )
-                all_subtitles.extend(subtitles_result.get("lines", []))
-
-        # Add subtitles if any
-        if all_subtitles:
-            text_style = TextStyle(
-                font_size=8,
-                font_color="#FFFFFF",
-                position_y=0.8,
-            )
-            project.add_text_track(all_subtitles, text_style)
-
-        project.save()
-
-        # Format durations
-        def format_duration(sec):
-            return f"{int(sec // 60)}:{int(sec % 60):02d}"
-
-        return {
-            "original_project": str(path),
-            "modified_project": str(project.project_path),
-            "project_name": copy_name,
-            "stats": {
-                "original_duration": format_duration(all_stats["original_duration"]),
-                "final_duration": format_duration(all_stats["kept_duration"]),
-                "time_saved": format_duration(all_stats["original_duration"] - all_stats["kept_duration"]),
-                "duplicates_removed": all_stats["duplicates_removed"],
-                "silences_removed": all_stats["silences_removed"],
-                "videos_processed": all_stats["videos_processed"],
-            },
-            "subtitles_added": len(all_subtitles) if add_subtitles else 0,
-            "message": f"Smart cut applied to copy '{copy_name}'. Original project unchanged.",
-        }
-
-    except Exception as e:
-        return {"error": f"Failed to process project: {e}"}
+    return path
 
 
-def _parse_srt_file(srt_path: Path) -> list[dict]:
-    """Parse SRT file into subtitle list."""
-    if not srt_path.exists():
-        return []
-
-    subtitles = []
-    content = srt_path.read_text(encoding="utf-8")
-
-    blocks = content.strip().split("\n\n")
-    for block in blocks:
-        lines = block.strip().split("\n")
-        if len(lines) < 3:
-            continue
-
-        # Parse timestamp line
-        timestamp_line = lines[1]
-        if " --> " not in timestamp_line:
-            continue
-
-        start_str, end_str = timestamp_line.split(" --> ")
-        start = _parse_srt_timestamp(start_str)
-        end = _parse_srt_timestamp(end_str)
-
-        # Get text (may be multiple lines)
-        text = " ".join(lines[2:])
-
-        subtitles.append({
-            "start": start,
-            "end": end,
-            "text": text,
-        })
-
-    return subtitles
-
-
-def _parse_srt_timestamp(ts: str) -> float:
-    """Parse SRT timestamp (HH:MM:SS,mmm) to seconds."""
-    ts = ts.strip().replace(",", ".")
-    parts = ts.split(":")
-    if len(parts) != 3:
-        return 0.0
-
-    hours = int(parts[0])
-    minutes = int(parts[1])
-    seconds = float(parts[2])
-
-    return hours * 3600 + minutes * 60 + seconds
+def _format_duration_us(duration_us: int) -> str:
+    """Format microseconds as M:SS."""
+    total_sec = duration_us / MICROSECONDS_PER_SECOND
+    minutes = int(total_sec // 60)
+    seconds = int(total_sec % 60)
+    return f"{minutes}:{seconds:02d}"

@@ -1,4 +1,4 @@
-"""OpenAI LLM client for content analysis."""
+"""OpenAI LLM client for duplicate detection (optional, requires OPENAI_API_KEY)."""
 
 import json
 from typing import Optional
@@ -36,20 +36,6 @@ Return JSON in this exact format:
 If there are no duplicates, return: {{"groups": []}}"""
 
 
-ACCENT_WORDS_PROMPT = """Identify 2-4 key words in this subtitle text that should be visually emphasized (highlighted in a different color). Choose important nouns, verbs, or key terms that carry the main meaning.
-
-Text: "{text}"
-
-Return JSON array of words to accent (exactly as they appear in the text):
-{{"accent_words": ["word1", "word2"]}}
-
-Rules:
-- Choose 2-4 words maximum
-- Pick words that carry the core meaning
-- Don't accent common words like "и", "в", "на", "это", "the", "is", "a"
-- Return words exactly as they appear (same case, same form)"""
-
-
 class LLMClient:
     """Client for OpenAI Chat API for content analysis."""
 
@@ -70,7 +56,6 @@ class LLMClient:
         if not paragraphs:
             return DuplicateGroups(groups=[])
 
-        # Format blocks for the prompt
         blocks_text = "\n".join(
             f"[{p['id']}] \"{p['text']}\""
             for p in paragraphs
@@ -78,77 +63,24 @@ class LLMClient:
 
         prompt = DUPLICATE_DETECTION_PROMPT.format(blocks=blocks_text)
 
-        try:
-            response = self.client.chat.completions.create(
-                model=self.model,
-                messages=[
-                    {"role": "system", "content": "You are a video editing assistant that identifies duplicate takes in transcripts."},
-                    {"role": "user", "content": prompt},
-                ],
-                response_format={"type": "json_object"},
-                temperature=0.1,
+        response = self.client.chat.completions.create(
+            model=self.model,
+            messages=[
+                {"role": "system", "content": "You are a video editing assistant that identifies duplicate takes in transcripts."},
+                {"role": "user", "content": prompt},
+            ],
+            response_format={"type": "json_object"},
+            temperature=0.1,
+        )
+
+        result = json.loads(response.choices[0].message.content)
+        groups = [
+            DuplicateGroup(
+                block_ids=g["block_ids"],
+                keep=g["keep"],
+                remove=g["remove"],
+                reason=g.get("reason", ""),
             )
-
-            result = json.loads(response.choices[0].message.content)
-            groups = [
-                DuplicateGroup(
-                    block_ids=g["block_ids"],
-                    keep=g["keep"],
-                    remove=g["remove"],
-                    reason=g.get("reason", ""),
-                )
-                for g in result.get("groups", [])
-            ]
-            return DuplicateGroups(groups=groups)
-
-        except Exception as e:
-            # On error, return empty groups (no duplicates detected)
-            print(f"Warning: Duplicate detection failed: {e}")
-            return DuplicateGroups(groups=[])
-
-    def identify_accent_words(self, text: str) -> list[str]:
-        """
-        Identify words to accent/highlight in subtitle text.
-
-        Args:
-            text: Subtitle text.
-
-        Returns:
-            List of words to highlight.
-        """
-        if not text or len(text.split()) < 3:
-            return []
-
-        prompt = ACCENT_WORDS_PROMPT.format(text=text)
-
-        try:
-            response = self.client.chat.completions.create(
-                model=self.model,
-                messages=[
-                    {"role": "system", "content": "You are a subtitle styling assistant."},
-                    {"role": "user", "content": prompt},
-                ],
-                response_format={"type": "json_object"},
-                temperature=0.3,
-            )
-
-            result = json.loads(response.choices[0].message.content)
-            return result.get("accent_words", [])
-
-        except Exception as e:
-            print(f"Warning: Accent word identification failed: {e}")
-            return []
-
-    def identify_accent_words_batch(self, texts: list[str]) -> list[list[str]]:
-        """
-        Identify accent words for multiple texts efficiently.
-
-        Args:
-            texts: List of subtitle texts.
-
-        Returns:
-            List of accent word lists, one per input text.
-        """
-        # For efficiency, process in batches or individually
-        # For now, process individually (can be optimized later)
-        return [self.identify_accent_words(text) for text in texts]
+            for g in result.get("groups", [])
+        ]
+        return DuplicateGroups(groups=groups)
