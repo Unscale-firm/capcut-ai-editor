@@ -256,9 +256,9 @@ def find_gaps(
     if not subtitles:
         return gaps
 
-    # Gap at the beginning (before first subtitle)
+    # Gap at the beginning (before first subtitle) — always cut, it's dead air
     first_start = subtitles[0].timeline_start_us
-    if first_start > threshold_us:
+    if first_start > 0:
         gaps.append((0, first_start))
 
     # Gaps between consecutive subtitles
@@ -269,11 +269,10 @@ def find_gaps(
         if gap > threshold_us:
             gaps.append((current_end, next_start))
 
-    # Gap at the end (after last subtitle)
+    # Gap at the end (after last subtitle) — always cut, it's dead air
     if project_duration_us > 0:
         last_end = subtitles[-1].timeline_end_us
-        tail_gap = project_duration_us - last_end
-        if tail_gap > threshold_us:
+        if project_duration_us > last_end:
             gaps.append((last_end, project_duration_us))
 
     return gaps
@@ -288,17 +287,16 @@ def find_duplicate_takes(
 
     A person records in takes: they say a sequence of phrases, then start over.
     Example:
-        "Hello friends today I'll..."   ← Take 1 (abandoned)
-        "Hello friends, today I'll show you..."  ← Take 2 (abandoned)
-        "Hello friends, today I'll show you how..."  ← Take 3 (KEEP)
+        "Hello friends today I'll..."   <- Take 1 (abandoned)
+        "Hello friends, today I'll show you..."  <- Take 2 (abandoned)
+        "Hello friends, today I'll show you how..."  <- Take 3 (KEEP)
 
     The takes are NOT consecutive — each take is a GROUP of subtitles.
-    We detect restarts by finding subtitle[i] that matches an earlier subtitle[j],
+    We detect restarts by finding subtitle[i] that matches a later subtitle[j],
     meaning the speaker went back to re-record from that point.
 
-    Algorithm: walk through subtitles. For each one, check if any LATER subtitle
-    matches it (= speaker restarts from this phrase). If so, everything from
-    current position to just before the restart is an earlier take → cut it.
+    Cuts the ENTIRE span from first removed subtitle to the start of the kept
+    version — including all gaps between subtitles within the removed takes.
 
     Returns time ranges of earlier takes to cut.
     """
@@ -310,17 +308,17 @@ def find_duplicate_takes(
 
     while i < len(subtitles):
         # Look for the LATEST restart of this subtitle's phrase
-        # (if the speaker tried 3 times, we want the last one)
         last_restart = None
         for j in range(i + 1, len(subtitles)):
             if compute_text_similarity(subtitles[i].text, subtitles[j].text) >= similarity_threshold:
                 last_restart = j
 
         if last_restart is not None:
-            # Everything from i to last_restart-1 is earlier takes → cut
-            for k in range(i, last_restart):
-                seg = subtitles[k]
-                ranges_to_cut.append((seg.timeline_start_us, seg.timeline_end_us))
+            # Cut ONE continuous range: from start of first removed
+            # to start of the kept version (includes all gaps between removed subs)
+            cut_start = subtitles[i].timeline_start_us
+            cut_end = subtitles[last_restart].timeline_start_us
+            ranges_to_cut.append((cut_start, cut_end))
             i = last_restart
         else:
             i += 1
