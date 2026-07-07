@@ -205,3 +205,18 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# --- SmartCut working data (large media / generated artifacts) ---
+work*/
+refframes/
+*.mp4
+*.mov
+*.mkv
+*.avi
+*.wav
+*.mp3
+*.m4a
+streak.png
+*_transcript.txt
+*_transcript.json
+*_words.json

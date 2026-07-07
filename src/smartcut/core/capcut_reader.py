@@ -8,7 +8,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
 
-from smartcut.config import MICROSECONDS_PER_SECOND
+from smartcut.config import MICROSECONDS_PER_SECOND, CONTENT_FILENAMES, find_content_file
 from smartcut.core.models import (
     CapCutProjectData,
     CapCutSubtitleSegment,
@@ -45,11 +45,14 @@ class CapCutProject:
 
     def __init__(self, project_path: Path):
         self.project_path = project_path
-        self.content_file = project_path / "draft_info.json"
         self.meta_file = project_path / "draft_meta_info.json"
 
-        if not self.content_file.exists():
-            raise FileNotFoundError(f"draft_info.json not found in {project_path}")
+        content_file = find_content_file(project_path)
+        if content_file is None:
+            raise FileNotFoundError(
+                f"No content file ({' or '.join(CONTENT_FILENAMES)}) found in {project_path}"
+            )
+        self.content_file = content_file
 
         self._content: dict = {}
         self._meta: dict = {}

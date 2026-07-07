@@ -5,6 +5,7 @@ import platform
 from pathlib import Path
 from typing import Optional
 
+from smartcut.config import find_content_file
 from smartcut.core.models import ProjectInfo
 
 
@@ -45,7 +46,7 @@ def list_projects(drafts_dir: Optional[Path] = None, require_content: bool = Tru
 
     Args:
         drafts_dir: Path to drafts directory. Auto-detected if None.
-        require_content: If True, only return projects with draft_info.json.
+        require_content: If True, only return projects that have a content file.
 
     Returns:
         List of ProjectInfo objects sorted by modification time (newest first).
@@ -63,13 +64,13 @@ def list_projects(drafts_dir: Optional[Path] = None, require_content: bool = Tru
             continue
 
         meta_file = project_folder / "draft_meta_info.json"
-        content_file = project_folder / "draft_info.json"
+        content_file = find_content_file(project_folder)
 
         if not meta_file.exists():
             continue
 
         # Skip projects without content file if required
-        if require_content and not content_file.exists():
+        if require_content and content_file is None:
             continue
 
         try:
@@ -148,7 +149,7 @@ def find_project_by_id(
 def _parse_project_info(
     project_folder: Path,
     meta_file: Path,
-    content_file: Path,
+    content_file: Optional[Path],
 ) -> Optional[ProjectInfo]:
     """Parse project metadata from JSON files."""
     with open(meta_file, "r", encoding="utf-8") as f:
@@ -161,7 +162,7 @@ def _parse_project_info(
     modified_time = meta.get("tm_draft_modified", 0)
 
     # Check if content file exists
-    has_content = content_file.exists()
+    has_content = content_file is not None
 
     # Count video materials from content file if exists
     video_count = 0

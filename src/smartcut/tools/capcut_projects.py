@@ -6,9 +6,11 @@ from pathlib import Path
 from typing import Optional
 
 from smartcut.config import (
+    CONTENT_FILENAMES,
     DUPLICATE_SIMILARITY_THRESHOLD,
     MICROSECONDS_PER_SECOND,
     SILENCE_THRESHOLD_SEC,
+    find_content_file,
     get_settings,
 )
 from smartcut.core.capcut_finder import (
@@ -44,7 +46,7 @@ async def list_capcut_projects(
 
     message = f"Found {len(projects)} projects"
     if incomplete_count > 0:
-        message += f" ({incomplete_count} incomplete — missing draft_info.json)"
+        message += f" ({incomplete_count} incomplete — missing content file)"
 
     return {
         "projects": [p.model_dump() for p in projects],
@@ -396,10 +398,9 @@ def _resolve_project_path(
     if not path.exists():
         return {"error": f"Project path not found: {path}"}
 
-    content_file = path / "draft_info.json"
-    if not content_file.exists():
+    if find_content_file(path) is None:
         return {
-            "error": "Project missing draft_info.json",
+            "error": f"Project missing content file ({' or '.join(CONTENT_FILENAMES)})",
             "path": str(path),
             "suggestion": "Open it in CapCut first to regenerate the content file.",
         }

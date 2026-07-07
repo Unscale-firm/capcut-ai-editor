@@ -38,6 +38,21 @@ WHISPER_MODEL = "whisper-1"
 LLM_MODEL = "gpt-4.1-mini"
 MICROSECONDS_PER_SECOND = 1_000_000
 
+# CapCut writes the project timeline/content under different filenames depending
+# on version and platform. Newer Windows builds use ``draft_content.json``;
+# older builds (and the original macOS assumption) use ``draft_info.json``.
+# Resolve in preference order so projects are recognized either way.
+CONTENT_FILENAMES = ("draft_content.json", "draft_info.json")
+
+
+def find_content_file(project_folder: Path) -> Optional[Path]:
+    """Return the project's content file, or None if none of the known names exist."""
+    for filename in CONTENT_FILENAMES:
+        candidate = project_folder / filename
+        if candidate.exists():
+            return candidate
+    return None
+
 
 def get_settings() -> Settings:
     """Get cached settings instance."""
