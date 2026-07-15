@@ -220,3 +220,11 @@ streak.png
 *_transcript.txt
 *_transcript.json
 *_words.json
+
+# --- EXCEPTION: vsl-edit/ handoff b-roll is tracked on purpose (small clips) ---
+!vsl-edit/**/*.mp4
+!vsl-edit/**/*.mov
+!vsl-edit/**/*.webm
+# renders still never go in git — even inside vsl-edit
+vsl-edit/exports/
+vsl-edit/renders/

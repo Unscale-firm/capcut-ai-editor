@@ -1,5 +1,9 @@
 # SmartCut MCP Server — Project Context
 
+> **✂️ EDITING THE UNSCALE VSL?** All edit instructions + b-roll live in **`vsl-edit/`**
+> — read `vsl-edit/CLAUDE.md` first. Pull before every session; only cut increments
+> marked LIVE in `vsl-edit/CHANGELOG.md`.
+
 ## What is this?
 
 MCP server for automated "talking head" video editing. Works with Claude Code to:
