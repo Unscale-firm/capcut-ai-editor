@@ -13,6 +13,8 @@ import json, re, argparse, os, subprocess
 from difflib import SequenceMatcher
 
 FF = r"C:\Users\User\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-8.1.1-full_build\bin\ffmpeg.exe"
+if not os.path.exists(FF):
+    FF = "ffmpeg"  # non-Windows: use ffmpeg from PATH
 SILENCE = 0.8       # gap (s) that ends a speech segment
 SIM = 0.60          # ratio above which two segments are the same line (different takes)
 ISO = 2.5           # a short segment isolated by gaps this big = slate/warmup

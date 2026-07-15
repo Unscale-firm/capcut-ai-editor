@@ -10,6 +10,8 @@ Run:
 import json, os, argparse, subprocess
 
 FF = r"C:\Users\User\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-8.1.1-full_build\bin\ffmpeg.exe"
+if not os.path.exists(FF):
+    FF = "ffmpeg"  # non-Windows: use ffmpeg from PATH
 
 def main():
     ap = argparse.ArgumentParser()

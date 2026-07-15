@@ -24,6 +24,8 @@ ROTATE  = 0                           # degrees to rotate the streak (0 = as-is)
 
 FF = r"C:\Users\User\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-8.1.1-full_build\bin\ffmpeg.exe"
 FP = FF.replace("ffmpeg.exe", "ffprobe.exe")
+if not os.path.exists(FF):
+    FF, FP = "ffmpeg", "ffprobe"  # non-Windows: use PATH
 
 def probe(path):
     out = subprocess.run([FP, "-v", "error", "-select_streams", "v:0",

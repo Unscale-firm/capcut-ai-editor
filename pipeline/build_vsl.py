@@ -21,6 +21,8 @@ import os, argparse, subprocess
 import numpy as np
 
 FF = r"C:\Users\User\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-8.1.1-full_build\bin\ffmpeg.exe"
+if not os.path.exists(FF):
+    FF = "ffmpeg"  # non-Windows: use ffmpeg from PATH
 W, H, FPS = 1920, 1080, 30
 
 # --- angle-switch plan: SIDE-angle windows, in seconds of the CUT (before the speed-up) ---

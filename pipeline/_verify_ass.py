@@ -12,6 +12,8 @@ sys.path.insert(0, os.path.dirname(__file__))
 from ass_captions import write_ass
 
 FF = r"C:\Users\User\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-8.1.1-full_build\bin\ffmpeg.exe"
+if not os.path.exists(FF):
+    FF = "ffmpeg"  # non-Windows: use ffmpeg from PATH
 VID = r"C:\Users\User\my-video"
 SCRATCH = r"C:\Users\User\AppData\Local\Temp\claude\C--Users-User\4a54c0be-7a6a-4690-97b3-0938774f9070\scratchpad"
 

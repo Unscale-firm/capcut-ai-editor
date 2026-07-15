@@ -15,6 +15,8 @@ import os, sys, json, subprocess, argparse, wave
 import numpy as np
 
 FF = r"C:\Users\User\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-8.1.1-full_build\bin\ffmpeg.exe"
+if not os.path.exists(FF):
+    FF = "ffmpeg"  # non-Windows: use ffmpeg from PATH
 SR = 16000
 
 def extract_audio(src, dst):

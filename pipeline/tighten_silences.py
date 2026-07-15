@@ -8,6 +8,8 @@ Run: venv/Scripts/python.exe pipeline/tighten_silences.py --work work_ad0604
 import json, os, re, subprocess, argparse
 
 FF = r"C:\Users\User\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-8.1.1-full_build\bin\ffmpeg.exe"
+if not os.path.exists(FF):
+    FF = "ffmpeg"  # non-Windows: use ffmpeg from PATH
 CAP = 0.22   # keep this much AFTER speech tapers into the pause
 PAD = 0.40   # keep this much BEFORE speech resumes (protects soft word onsets from being eaten)
 DMIN = 1.00  # only trim clearly-long dead-air pauses
