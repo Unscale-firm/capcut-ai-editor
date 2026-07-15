@@ -24,8 +24,12 @@ It is maintained by the Unscale side (Amine + his Claude); the editor pulls, cut
 - `CHANGELOG.md` — push log + LIVE status per increment. Append-only.
 
 ## What is NOT in this folder
-- The source video `vsl-captioned.mp4` and raw camera footage — too large for git;
-  delivered separately (Drive link from Amine). Ask if you don't have it.
+- The source video `vsl-captioned.mp4` and raw camera footage — the EDITOR owns these
+  (they produced the captioned cut). The Unscale side supplies only instructions,
+  feedback, and b-roll (clips, reactions, images) through this folder.
+  ⚠️ Timestamps in the map are pinned to vsl-captioned.mp4 at 18:20 / 1.15x — if the
+  editor ever re-cuts or re-times the base video, flag it in QUESTIONS.md BEFORE
+  cutting, because every timestamp in the map shifts.
 - Anything else about the business. If an instruction references a file that isn't
   here (e.g. E3.25 substantiation, proof originals), that's an Unscale-side item —
   flag it, don't hunt for it.
