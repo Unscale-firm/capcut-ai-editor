@@ -5,10 +5,20 @@
 |---|---|---|
 | 1 — cold open → early CTA | 00:00 (pre-roll montage) → 02:21 | **LIVE** (handed Jul 14) |
 | 2 — golden cage → "I had to leave." | 02:21 → 04:26 | **LIVE** (handed Jul 14) — ⚠️ hospital photo still pending from Amine (2.4/2.7) |
-| 3 — salary trap → Trap 1 reveal | 04:26 → 06:50 | **STAGED** — pending Amine's review, do not cut yet |
-| 4 — wilderness → ChatGPT turn | 06:50 → ~08:44 | not written yet |
+| 3 — salary trap → Trap 1 reveal | 04:26 → 06:50 | **LIVE** (founder approved Jul 16) |
+| 4 — wilderness → ChatGPT turn → cold-email system | 06:50 → 08:44 | **LIVE** (written + handed Jul 16) |
 
 ## Push log (newest first)
+- **2026-07-16 (e) — INCREMENTS 3 AND 4 ARE LIVE — the full first 08:44 is yours.**
+  Increment 3 (04:26-06:50) founder-approved: Rayan hand-grip PiP (3.1) - Goodbye-McKinsey
+  email receipt (3.2) - rejection-email stack + Scale X + Dropbox/Airbnb logos + Forbes
+  MAGNIFIER move (land on Amine first, glide to Cara) + Edbridg portrait at "I thought I
+  made it" (3.4) - grind selfies under GROW/BURN/CHASE (3.5) - hospital+newborn memory
+  flashes + TRAP 1 + DON'T. card (3.6). Increment 4 (06:50-08:44) NEW in the map:
+  scheme-graveyard strikethroughs - TRAP 2 "THE GURUS" + RUN. card - dignity beat at the
+  promise-to-son - ChatGPT turn (text pop, no logo) - getting-more-clients thesis pops.
+  ⚠️ Caption VERIFY at 07:12-07:16 (Whisper garble — caption what the audio says).
+  Open slots: hospital photo (2.4/2.7/3.6 flash) - optional coldmail_* screenshot (4.5).
 - **2026-07-16 (d) — ⚠️ REVISED GLOBAL — NEW PACING RULE (founder), applies to ALL increments
   including the already-cut 1–2:** something must change every 3–4 seconds, everywhere —
   A↔B angle switch, punch-in/out zoom step, b-roll insert, or text pop. Full craft

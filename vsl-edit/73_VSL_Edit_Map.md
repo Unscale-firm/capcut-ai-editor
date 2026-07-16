@@ -202,4 +202,44 @@ Total cold open ≈ 9–10s. Hard cuts, no music on the tiles (a low music bed m
 
 ---
 
-*ALSO STAGED for later increments: `B-roll assets\website\case-studies_scroll.mp4` (8s smooth scroll of unscale.io/Case Studies — Dark Ops page, stat band 923+ hrs / 44+ meetings / 70% / 20× / €0, client cards) + `case-studies_fullpage.png`. Natural home: the 12:34–13:06 credibility/case-study beat. — NEXT: Increment 4 (06:50 → ~08:44: the wilderness/rock bottom → scammed by gurus → WARNING #2 = TRAP 2 at 07:23 → the ChatGPT turn at 07:48 → "where do I point it" / cold-email system) — pending Amine's review of Increment 3. NOTE for Increment 4: caption check needed at 07:00 ("these fake gurus you see running yesterday" — Whisper garble, verify against audio before captioning); the 3:51-style cool grade should NOT return for the guru beat — it stays personal story, not news.*
+## INCREMENT 4 — 06:50 → 08:44 ("…so personal that it felt handwritten.")
+*Handed LIVE with Increment 3 (Jul 16, founder order — "give them the full 8 minutes"). Covers: rock bottom → the get-rich-quick graveyard → scammed by gurus → WARNING #2 = TRAP 2 → the promise-to-son beat → the ChatGPT turn → "where do I point it" → the cold-email system. Grade note: the 3:51-style cool "news" grade does NOT return for the guru beat — this is personal story, not news. The 3–4s pacing rule applies throughout.*
+
+### 4.1 · 06:50–07:00 — ROCK BOTTOM RE-ENTRY (A-cam home base)
+**EFFECT:** quiet re-entry — story grade, no graphics for the first sentence.
+- "All I knew was I was almost broke, I had a family to feed, and I needed a way out — and fast." → clean frame; one small pop on **a family to feed** if the rhythm wants it, nothing else. (Caption fix: "family defeat" → family to feed.)
+
+### 4.2 · 07:00–07:23 — THE SCHEME GRAVEYARD `[SIDE home base]`
+**EFFECT:** the strikethrough pile — each scheme name pops as spoken, then gets STRUCK THROUGH as the next lands:
+- ~~make money online~~ → ~~dropshipping~~ → ~~coaching~~ → ~~e-commerce~~ → ~~SMMA~~ — a stacking pile of failures, all struck.
+- "that's exactly when I hit rock bottom" → pile clears, clean frame.
+- "scammed over and over by these fake gurus" → pop **scammed over and over**. ⚠️ CAPTION VERIFY: Whisper heard "fake gurus you see running yesterday" — garble; **caption whatever the audio actually says** (listen at 07:12–07:16; likely "running ads" or similar). Do not caption the garble.
+- "Tens of thousands of dollars invested in courses, coaching programs, mentorships — all gone." → single pop on the button: **all gone.**
+
+### 4.3 · 07:23–07:48 — WARNING #2 → TRAP 2 REVEALED (A-cam — warnings to the lens)
+**EFFECT:** the trap counter pays off again, then the section's emotional floor drops.
+- "my second warning" → **TRAP counter returns — TRAP 2 lights: "THE GURUS"** (Trap 3 stays grayed — last open loop; it pays off in the offer act). Hold through "please run."
+- "please run" → hard card, same family as DON'T.: **RUN.** (Caption fix: "get reached next month" → get rich next month.)
+- "Those courses are the ones that buy their Lamborghinis. Not your freedom." → two pops in sequence: **their Lamborghinis.** / **Not your freedom.**
+- "To be honest with you, there were nights where I thought about giving up. But I had made my son a promise, so I kept going." → **ALL graphics out. Dignity treatment** (like the father beat): slow push-in only, music thins. This is the emotional floor of the wilderness — nothing on screen competes with it.
+- "Until three years ago, something incredible happened." → music begins its turn (hope enters, but do NOT resolve yet); cut on the sentence boundary into 4.4.
+
+### 4.4 · 07:48–08:17 — THE CHATGPT TURN `[SIDE home base]`
+**EFFECT:** the reveal — dismissiveness first, then the lightning strike.
+- "They just saw a toy, a chatbot, writing poems, doing homework." → nothing on screen — let the dismissiveness play deadpan.
+- "the second I got my hands on it, I knew this was the one thing I was waiting for my entire life" → slow push-in starts.
+- "Three years ago, ChatGPT was born." → text pop **ChatGPT** (text only — NO logo; on-screen logo real estate stays reserved for the credibility set: McKinsey/Forbes/Unscale/Dropbox/Airbnb. Founder can override.)
+- "a single person could do the work of an entire team" → pop **the work of an entire team**.
+- "the research, the writing, the analysis, the outreach" → four rapid cadence pops stacking: **the research** · **the writing** · **the analysis** · **the outreach** — then all out on "at a level and at a speed no human could match" (clean frame for the button).
+
+### 4.5 · 08:17–08:44 — WHERE DO I POINT IT (A-cam)
+**EFFECT:** the thesis of the whole business — biggest pops of the increment.
+- "The only question was, where do I point it?" → clean frame, beat.
+- "the single problem every business on Earth shares, which is getting more clients" → pop, Orange Ember, hold: **getting more clients**.
+- "bring a business more clients and believe me, you will never starve a day in your life" → pop **never starve a day**.
+- "So I locked myself in and I built a system…" (caption fix: "unlocked" → locked) → OPTIONAL SLOT: if Amine supplies a real screenshot of the early cold-email system (inbox/output/n8n — identities blurred), 1.5s insert here (`Raw assets\` filename pattern `coldmail_*`). Until then: clean, the words carry it.
+- "…write cold outreach emails so personal that it felt handwritten." → pop **so personal it felt handwritten** riding the sentence end. 08:44 = increment boundary (the replies/"boom" proof era opens Increment 5 — reply screenshots and testimonial clips enter there).
+
+---
+
+*ALSO STAGED for later increments: `B-roll assets\website\case-studies_scroll.mp4` (8s smooth scroll of unscale.io/Case Studies — Dark Ops page, stat band 923+ hrs / 44+ meetings / 70% / 20× / €0, client cards) + `case-studies_fullpage.png`. Natural home: the 12:34–13:06 credibility/case-study beat. — NEXT: Increment 5 (08:44 → ~10:45: "boom, replies" → Spiralyze first client → business grew, no prison → unscaling reveal) — needs: reply screenshots (Social proof\), testimonial_spiralyze clip, and the E3.25 records for the Spiralyze "$10K/mo… with leads" claim.*
