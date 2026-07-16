@@ -9,6 +9,11 @@
 | 4 — wilderness → ChatGPT turn | 06:50 → ~08:44 | not written yet |
 
 ## Push log (newest first)
+- **2026-07-16** — NEW: `B-roll assets/credibility_speaking/` — 6 verified clips of Amine
+  speaking on stage (Duke graduation speech + hooding, Scale X beside the Y Combinator
+  slide [pre-slowed 0.75x, muted], 3× Starfounders conference in 4K). **Slot assignments
+  TBD — do NOT cut these in yet**; read the folder note in `B-roll assets/README.md`
+  (French slides = fast 1–2s flashes only). Assignments will arrive as map/changelog lines.
 - **2026-07-15** — Repo created. Map contains Increments 1–3 (3 = STAGED). Assets:
   increment-1, increment-3 (Forbes webm + still), logos, website scroll. increment-2
   folder awaits the hospital photo + McKinsey-era photos from Amine; layoff chyrons =

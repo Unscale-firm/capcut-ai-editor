@@ -25,6 +25,14 @@ All client tiles run CLEAN: no music over them, no burned captions on the tile.
 - REQUESTED FROM AMINE (optional): 2–3 McKinsey-era personal photos (Increment 2.1)
 - EDITOR BUILDS: 3 layoff chyron cards — AMAZON 30,000 corporate jobs · META 8,000 · ORACLE 21,000 (news-ticker style, Dark Ops/white; source screenshots to be filed by Amine's team before ship)
 
+## credibility_speaking/  (staged — slot assignments TBD by Amine, do NOT cut in yet)
+Real footage of Amine speaking on stage — credibility inserts. All verified him speaking.
+- grad-speech_duke_podium-speaking_15m29s_2.5s.mp4 — Duke graduation speech, podium, gown, mid-word, gesturing
+- grad-hooding_duke_35m45s_4s.mp4 — the hooding moment + photo pose
+- scalex_ycombinator-slide_11m03s_slow075x.mp4 — on stage beside "We were interviewing with YCombinator" slide; ALREADY slowed 0.75x, muted
+- conf_starfounders_speaking_2m20s_2s.mp4 / _2m37s_3s.mp4 / _3m40s_4s.mp4 — Starfounders conference stage, 4K (punch-in freely)
+⚠️ Starfounders slides are FRENCH and one shows a € fundraising figure — use as fast 1–2s flashes only, never hold long enough to read. Natural homes (pending Amine): who-I-am 00:28–00:55 (would be REVISED 1.2), the $2M/Forbes beat 05:33 (Increment 3), offer-act credibility flashes.
+
 ## increment-3_forbes+mirage/  (used at 05:33 — Increment 3.4)
 - On forbes 30 under 30.webm — full-frame insert at 05:33 ("Forbes 30 [Under] 30 list… right next to Cara Delevingne"). 8.3s, 1690×992, muted.
   ⚠️ USE 0:00–0:07 ONLY (recorder toolbar enters frame in the last ~1.5s) · ⚠️ "Icecream Screen Recorder" watermark lower-right whole clip — scale ~8–10% + reframe or mask it out · adjacent tile in this capture = Greta Thunberg (spoken line names Cara Delevingne, same list — default OK, flagged to Amine).
