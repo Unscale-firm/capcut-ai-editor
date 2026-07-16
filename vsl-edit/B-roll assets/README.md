@@ -35,7 +35,7 @@ Real footage of Amine speaking on stage — credibility inserts. All verified hi
 
 ## increment-3_forbes+mirage/  (used at 05:33 — Increment 3.4)
 - On forbes 30 under 30.webm — full-frame insert at 05:33 ("Forbes 30 [Under] 30 list… right next to Cara Delevingne"). 8.3s, 1690×992, muted.
-  ⚠️ USE 0:00–0:07 ONLY (recorder toolbar enters frame in the last ~1.5s) · ⚠️ "Icecream Screen Recorder" watermark lower-right whole clip — scale ~8–10% + reframe or mask it out · adjacent tile in this capture = Greta Thunberg (spoken line names Cara Delevingne, same list — default OK, flagged to Amine).
+  ⚠️ USE 0:00–0:07 ONLY (recorder toolbar enters frame in the last ~1.5s) · ⚠️ "Icecream Screen Recorder" watermark lower-right whole clip — scale ~8–10% + reframe or mask it out · the wide grid view at ~0:01.2-0:02.5 shows the full row: Amine card FIRST, then Greta Thunberg, then Cara Delevingne — hold that view as the Cara line is spoken (RESOLVED, no conflict).
 - forbes-30u30_still.png — pre-extracted frame (banner + Amine's card) if a freeze reads better than the scroll; watermark still present lower-right.
 - EDITOR BUILDS: TRAP 1·2·3 counter reveal state (TRAP 1 — CHASE A STARTUP lit, 2·3 grayed) — must match the 00:28 intro graphic exactly.
 - REQUESTED FROM AMINE (optional, dignity-gated): one newborn/holding-Rayan photo (Increment 3.1); the Cara-adjacent Forbes capture if preferred.
