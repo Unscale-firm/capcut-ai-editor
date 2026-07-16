@@ -9,6 +9,14 @@
 | 4 — wilderness → ChatGPT turn | 06:50 → ~08:44 | not written yet |
 
 ## Push log (newest first)
+- **2026-07-16 (d) — ⚠️ REVISED GLOBAL — NEW PACING RULE (founder), applies to ALL increments
+  including the already-cut 1–2:** something must change every 3–4 seconds, everywhere —
+  A↔B angle switch, punch-in/out zoom step, b-roll insert, or text pop. Full craft
+  constraints in the map's GLOBAL SPEC (cut on phrase boundaries; CTAs/warnings anchor
+  to lens; heavy emotional beats use push-ins not hard flips; pops count as a change).
+  Increments 1–2 need a pacing re-pass to this rule. Also: `Goodbye mckinsey.png`
+  (real last-day email) now in Raw assets — assigned to 3.2 "I left. I jumped."
+  (staged increment; redaction instructions in the map).
 - **2026-07-16 (c) — RAW ASSETS NOW IN THE REPO (founder order).** `B-roll assets/Raw assets/`
   ships in full: cage-era photos (first-class/hotel/pool + 11 Maldives `vacay_*`), the
   medical/ultrasound photo (**CANDIDATE for 2.4 — not confirmed, do not cut in yet**),

@@ -10,7 +10,7 @@
 **Client tiles run CLEAN** — no music over them, no captions burned onto the tile itself; the VSL's own caption track continues below.
 **Brand:** Dark Ops / Orange Ember palette, DM Sans for all text cards (per `Presentations\UNSCALE_DESIGN_SYSTEM`).
 **Text-pop rule:** max ~5 words per pop, never paraphrase Amine — pops quote his exact words.
-**CAMERA RULE (two angles recorded — DIRECT/A-cam + SIDE):** every section below carries a CAMERA line. Switch angles ONLY on block boundaries (the PDF's 22 angle-switch windows), never mid-sentence. Default = DIRECT; SIDE marks the blocks the script tagged [SIDE]. Angle switches double as invisible cut points for pacing.
+**CAMERA / PACING RULE (REVISED Jul 16, founder — supersedes the old block-boundary rule): SOMETHING CHANGES EVERY 3–4 SECONDS, everywhere.** The change can be: an A↔B angle switch · a punch-in/out (5–10% digital zoom step) · a b-roll insert · a text pop landing or clearing. Never let the frame sit static longer than ~4s — retention is the job. Craft constraints: cut angles on phrase/breath boundaries (never mid-word); the per-section CAMERA lines below are now the HOME BASE for each section (CTAs and warnings still anchor DIRECT to the lens; story anchors SIDE), not a no-cutting instruction. In the heavy emotional beats (2.3–2.5 collapse, the father passage in 3.2), prefer slow push-ins and light changes over hard angle flips — keep the cadence, soften the cuts, never chop the gravity. Text pops count as a "change," so pop-dense passages need fewer camera moves.
 
 **COMPLIANCE NOTES:**
 1. **NO earnings-disclaimer cards — founder ruling, Jul 14** ("remove the disclaimer"). With no disclaimer on screen and no spoken "not typical," the entire weight of the $10–50K/mo hook claim rests on SUBSTANTIATION: the E3.25 file must contain real partner records backing the range before this video takes paid traffic.
@@ -162,6 +162,7 @@ Total cold open ≈ 9–10s. Hard cuts, no music on the tiles (a low music bed m
 - "my own father who worked himself to the bone, whom I barely saw" → **absolutely nothing on screen.** No photos, no pops. Locked camera. (Founder dignity rule — the father material is sacred.)
 - "keep saying soon until soon becomes never" → small text pop: **soon becomes never**.
 - "I left. I jumped." → two hard text pops, one per sentence: **I left.** / **I jumped.** — first punchy graphics since 03:51; they announce the register shift.
+- *(ADDED Jul 16, founder — replaces an earlier stock-jump idea, NO stock)* At "I left. I jumped." → **THE GOODBYE-McKINSEY EMAIL**: `Raw assets\Raw personal pics\goodbye-mckinsey_REDACTED-subject+lastday.png` — the real email from his last day, ALREADY redacted & cropped to the exact insert: subject **"Goodbye McKinsey"** + **"Today was my last day at the Firm."** ~2s, slight slow zoom-in on the subject line. Use as supplied — no further crop needed; recipients are boxed out on purpose. This is the video's hardest receipt: he didn't just say he jumped, here's the email.
 - "in the beginning, I felt unstoppable" → music swells slightly, saturation eases back toward normal. Let the viewer feel the mirage before it's named.
 
 ### 3.3 · 05:12–05:33 — THE MIRAGE `[SIDE]`
@@ -172,6 +173,7 @@ Total cold open ≈ 9–10s. Hard cuts, no music on the tiles (a low music bed m
 
 ### 3.4 · 05:33–06:00 — FORBES + THE FALL (A-cam)
 **CAMERA:** DIRECT. **EFFECT:** the Forbes insert (full-frame, hard cut in/out) — its FIRST and ONLY appearance, held back from the intro on purpose.
+- *(ADDED Jul 16, founder — files incoming)* At "begging hundreds of investors" → **rapid-fire REJECTION-EMAIL stack**: 3–5 real investor "no" screenshots punching in machine-gun style (~0.5s each, stacking/overlapping slightly askew), the "unfortunately / we'll pass / not a fit" line of each highlighted. ⚠️ REDACT sender names, firms, logos, addresses — the NOs are the point, not who said them. Amine is supplying the screenshots into `Raw assets\` (filename pattern `rejection_*`); editor: leave a placeholder slot until they land. The Scale X clip then follows — rejections → still on stage pitching = the grind made visible.
 - "raising $2 million" → text pop **$2 MILLION** · "investors that invested in Dropbox and Airbnb" → follow-up pop **Dropbox & Airbnb investors**.
 - At "I made it to the Forbes 30 [Under] 30 list" → **full-frame insert: `B-roll assets\increment-3_forbes+mirage\On forbes 30 under 30.webm`**, ~4s total, covering through "right next to Cara Delevingne": open on the clip's first second (THE 2020 · 30 UNDER 30 · Forbes banner), then its scroll lands on Amine's card. A clean pre-extracted still (`forbes-30u30_still.png`) is in the folder if a freeze reads better than the scroll.
   - ⚠️ **USE 0:00–0:07 ONLY** — a screen-recorder toolbar pops into frame in the final ~1.5s.
