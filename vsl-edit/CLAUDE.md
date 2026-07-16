@@ -44,6 +44,17 @@ It is maintained by the Unscale side (Amine + his Claude); the editor pulls, cut
 - Dignity-gated beats (the father passage, Rayan) — follow the map exactly: where it
   says "nothing on screen," put nothing on screen. No stock footage anywhere in this video.
 
+## Ads workstream (9:16 Meta ads — parallel to the VSL)
+- **Dropping ad transcripts for Unscale:** put each one in `vsl-edit/ads-edit/transcripts/`
+  as its own file — `<ad-id>_<short-name>.md` (e.g. `F-07_layoffs.md`). Inside: the ad's
+  ID if known, the verbatim transcript WITH timestamps of the editor's current cut
+  (timestamps = the cut you're editing, like the VSL map), video length + aspect (9:16),
+  and any notes. Commit + push; the Unscale side pulls, writes the edit map
+  (`ads-edit/ADS_EDIT_MAP.md`) + b-roll assignments, and pushes back.
+- Ads REUSE the b-roll already in this repo (reaction clips, mosaics, credibility flashes)
+  BUT: founder receipts and family/Rayan material NEVER appear in paid ads — if an
+  instruction seems to ask for one there, stop and flag it in QUESTIONS.md.
+
 ## Reporting back
 - Questions/blockers: append them to `QUESTIONS.md` in this folder (create if absent),
   commit, and `git push`. The Unscale side pulls and answers in the same file.
