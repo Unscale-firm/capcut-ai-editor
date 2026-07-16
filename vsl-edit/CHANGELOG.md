@@ -9,6 +9,14 @@
 | 4 — wilderness → ChatGPT turn | 06:50 → ~08:44 | not written yet |
 
 ## Push log (newest first)
+- **2026-07-16 (c) — RAW ASSETS NOW IN THE REPO (founder order).** `B-roll assets/Raw assets/`
+  ships in full: cage-era photos (first-class/hotel/pool + 11 Maldives `vacay_*`), the
+  medical/ultrasound photo (**CANDIDATE for 2.4 — not confirmed, do not cut in yet**),
+  freedom-era set (café-laptop ⭐, plane, Budapest, playground, pool, pancakes) + piano cuts,
+  Rayan hand-grip cut (reserved for Increment 3.1). Big SOURCE videos (>95MB) stay off
+  GitHub (limit) — the edit-ready extracts are included. ⚠️ RULES: nothing from Raw assets
+  gets cut into the video until it's assigned in the map or a REVISED line — these are
+  staging assets. Family/Rayan material = VSL only, never ads.
 - **2026-07-16 (b) — REVISIONS TO LIVE INCREMENT 1 (founder rulings, full detail in the map):**
   - **REVISED 1.1** — CUT the two callback flashes at 00:19 (Kully + Damian re-flash). The
     $3K·$5K·$10K text pop stays.
