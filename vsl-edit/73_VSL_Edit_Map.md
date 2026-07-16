@@ -59,14 +59,15 @@ Total cold open ≈ 9–10s. Hard cuts, no music on the tiles (a low music bed m
 ### 1.1 · 00:00–00:28 — THE HOOK (A-cam)
 **CAMERA:** DIRECT (A-cam), locked. **EFFECT:** none — energy comes from the text pops.
 - Text pops, exactly on the spoken words: "without leaving their corporate job" → **without leaving your job** · "technical skills" → **no technical skills** · "few hours a week" → **a few hours a week**.
-- At 00:19 "These are real businesses paying three, five, and even 10K a month" → two rapid 0.7s callback flashes from the cold open (Kully beat + Damian freeze-frame) + text pop **$3K · $5K · $10K /month**.
+- At 00:19 "These are real businesses paying three, five, and even 10K a month" → text pop **$3K · $5K · $10K /month**. *(REVISED Jul 16, founder: NO callback flashes here — the Kully/Damian re-flash is cut.)*
 - At "monthly recurring revenue" → text pop **RECURRING REVENUE** (Orange Ember).
 
 ### 1.2 · 00:28–00:55 — THREE TRAPS TEASE + WHO I AM (A-cam)
 **CAMERA:** DIRECT. **EFFECT:** subtle slow push-in starting at "My name is Amine", reset on the DON'T cards.
 - "the three traps" → minimal counter graphic appears: **TRAP 1 · 2 · 3** (grayed, unrevealed — it pays off later in the video; same graphic returns at 06:25 and 07:23).
 - "cost me personally 10 years and a fortune" → text pop **10 years. A fortune.**
-- "My name is Amin[e]" → **name card lower third:** *Amine — ex-McKinsey · Forbes 30 Under 30 · Founder, Unscale* + **three LOGOS appearing in sequence, each exactly as spoken:** McKinsey logo (at "X McKinsey consultant") → Forbes logo (at "Forbes 30 [Under] 30") → Unscale logo (at "founder of Unscale"). Clean white/mono versions on Dark Ops, small, side by side, all three hold ~3s then out. (The Forbes 30 Under 30 list photo makes its first appearance at 5:33, with the Cara Delevingne line — it's already staged in the asset folder under `reserved_increment-3`.)
+- "My name is Amin[e]" → **name card lower third:** *Amine — ex-McKinsey · Forbes 30 Under 30 · Founder, Unscale* + **three LOGOS appearing in sequence, each exactly as spoken:** McKinsey logo (at "X McKinsey consultant") → Forbes logo (at "Forbes 30 [Under] 30") → Unscale logo (at "founder of Unscale"). Clean white/mono versions on Dark Ops, small, side by side, all three hold ~3s then out. (The Forbes 30 Under 30 list photo makes its first appearance at 5:33, with the Cara Delevingne line — staged in `increment-3_forbes+mirage`.)
+- *(REVISED Jul 16, founder)* **Two stage flashes — real footage of Amine speaking at events** (`B-roll assets\credibility_speaking\`): flash #1 = `conf_starfounders_speaking_2m20s_2s.mp4` (~1s) at "My name is Amine"; flash #2 = `conf_starfounders_speaking_2m37s_3s.mp4` (the wide, him alone commanding the stage, ~1.5s) at "founder of Unscale". Hard cuts in/out, muted, the name card/logos continue over them. ⚠️ The slides behind him are French — these lengths are too short to read them, keep it that way.
 - "Don't leave your corporate job. Don't start an AI agency." → two full text cards punching in sequence: **DON'T leave your job** / **DON'T start an agency**.
 
 ### 1.3 · 00:55–01:22 — THE OFFER SUMMARY (A-cam)
@@ -79,14 +80,15 @@ Total cold open ≈ 9–10s. Hard cuts, no music on the tiles (a low music bed m
 
 ### 1.4 · 01:22–01:37 — OUR NAME, OUR BRAND (A-cam)
 **CAMERA:** DIRECT. **EFFECT:** proof insert full-frame, hard cut in/out.
-- At "our name, our brand, our social proof, the hundreds of clients" → **the 12-person MOSAIC**, full-frame, ~3s: `B-roll assets\increment-1_cold-open+intro\mosaic_hundreds-of-clients_12people_15s.mp4` (muted grid of 12 real clients mid-call — use any slice, it loops). Alt/extra: the Prasath beat from `comp_endorsements.mp4` can follow for 1.5s if the rhythm wants it.
+- At "our name, our brand, our social proof, the hundreds of clients" → *(REVISED Jul 16, founder: use the BIGGER mosaic)* **the 40-tile ZOOM-OUT mosaic**, full-frame, ~3–4s: `B-roll assets\increment-1_cold-open+intro\mosaic_hundreds-of-clients_40tiles-20people-zoomout_15s.mp4` — time it so the zoom-out reveal (one face → wall of faces) lands ON "hundreds of clients." Alternates in the same folder if the rhythm wants a static grid instead: `mosaic_hundreds-of-clients_20people_12s.mp4` (new) or the original 12-person. Prasath beat from `comp_endorsements.mp4` may still follow for 1.5s.
 - "be the person that clients trust, own that relationship" → text pop **you own the relationship**.
 
 ### 1.5 · 01:37–01:58 — TONY / MICHAEL / JOSH `[SIDE]`
-**CAMERA:** SIDE (per script — the whole Tony/Michael/Josh block). **EFFECT:** name chips stack lower-left.
+**CAMERA:** SIDE (per script — the whole Tony/Michael/Josh block). **EFFECT:** name chips stack lower-left + muted PiP call-windows beside Amine.
 - As each name is spoken, a name-chip appears and stays, stacking: **Tony — Product Manager** · **Michael — Consultant** · **Josh — Senior Executive**. (⚠️ these are real partners — records/releases must be on file before publish.)
+- *(REVISED Jul 16, founder)* **As each name lands, a small muted call-window pops up at Amine's side** (one at a time, ~4–5s each, or stacking if rhythm allows): `tmj-pip-1_jamie_6s_MUTED.mp4` → `tmj-pip-2_william_6s_MUTED.mp4` → `tmj-pip-3_chris_6s_MUTED.mp4` (all in `increment-1_cold-open+intro\`). People mid-conversation, no sound, ≤35% frame width. **NO name labels on the windows** — the chips carry the names; the windows are texture (real people in real calls), NOT identifications of Tony/Michael/Josh.
 - "none of them are technical" → text pop **zero technical background**.
-- "every reaction that you saw in the beginning of this video" → 1.5s callback flash (Kully "when do I get to start?") — this stitches the open to the promise.
+- "every reaction that you saw in the beginning of this video" → *(REVISED Jul 16, founder: NO callback flash — cut the Kully re-flash; clean frame, the line does its own work.)*
 
 ### 1.6 · 01:58–02:21 — THE EARLY CTA (A-cam)
 **CAMERA:** DIRECT (back to A-cam for the CTA — always sell to the lens). **EFFECT:** CTA lower third; at "So here is my story" a slow 5% push-in begins that carries into 2.1.

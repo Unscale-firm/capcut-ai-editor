@@ -9,6 +9,20 @@
 | 4 — wilderness → ChatGPT turn | 06:50 → ~08:44 | not written yet |
 
 ## Push log (newest first)
+- **2026-07-16 (b) — REVISIONS TO LIVE INCREMENT 1 (founder rulings, full detail in the map):**
+  - **REVISED 1.1** — CUT the two callback flashes at 00:19 (Kully + Damian re-flash). The
+    $3K·$5K·$10K text pop stays.
+  - **REVISED 1.2** — ADD two stage flashes from `credibility_speaking/`:
+    `conf_starfounders_speaking_2m20s_2s.mp4` (~1s) at "My name is Amine" ·
+    `conf_starfounders_speaking_2m37s_3s.mp4` (wide, ~1.5s) at "founder of Unscale".
+    Muted, hard cuts, name card/logos continue over them. French slides = keep flashes short.
+  - **REVISED 1.4** — SWAP the mosaic at 01:22 "hundreds of clients": use
+    `mosaic_hundreds-of-clients_40tiles-20people-zoomout_15s.mp4` (time the zoom-out
+    reveal to land ON the words). New static alternate also shipped (20people_12s).
+  - **REVISED 1.5** — ADD three muted PiP call-windows beside Amine, one per name chip
+    (Tony/Michael/Josh): `tmj-pip-1_jamie` → `tmj-pip-2_william` → `tmj-pip-3_chris`
+    (~4–5s each, ≤35% frame width, NO name labels on the windows). CUT the Kully
+    callback flash at "every reaction that you saw" — clean frame instead.
 - **2026-07-16** — NEW: `B-roll assets/credibility_speaking/` — 6 verified clips of Amine
   speaking on stage (Duke graduation speech + hooding, Scale X beside the Y Combinator
   slide [pre-slowed 0.75x, muted], 3× Starfounders conference in 4K). **Slot assignments
