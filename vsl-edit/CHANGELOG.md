@@ -9,6 +9,11 @@
 | 4 — wilderness → ChatGPT turn → cold-email system | 06:50 → 08:44 | **LIVE** (written + handed Jul 16) |
 
 ## Push log (newest first)
+- **2026-07-17 — MAP REWRITTEN INTO CUE-SHEET FORMAT (same decisions, zero history noise).**
+  Every section now = CAMERA home base + MOOD + a cue table: when-he-says -> do -> asset/text.
+  Read the GLOBAL RULES block once, then cut from the tables. No instruction changed content-wise
+  EXCEPT: all founder rulings previously scattered in prose are now inline in the tables.
+  Open items owed by Amine are listed at the bottom of the map.
 - **2026-07-16 (e) — INCREMENTS 3 AND 4 ARE LIVE — the full first 08:44 is yours.**
   Increment 3 (04:26-06:50) founder-approved: Rayan hand-grip PiP (3.1) - Goodbye-McKinsey
   email receipt (3.2) - rejection-email stack + Scale X + Dropbox/Airbnb logos + Forbes
