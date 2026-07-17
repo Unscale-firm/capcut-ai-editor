@@ -72,6 +72,7 @@
 
 **BEAT: the CTA ("click the link below / watch the presentation / no email needed").**
 → button-style lower third (Orange Ember): **Watch the free presentation ⬇ · no email needed**, arrow-down motion cue; pop **10 partners this quarter** exactly when spoken. Hold the button through end of ad.
+→ *(founder concept Jul 17 — optional upgrade on "10 partners / hiring partners" lines)*: **the "YOU?" team-card animation** — zoom into the real unscale.io team section, a mystery-silhouette card ("You? · Unscale Partner", ember glow) animates into the row. Assets: `B-roll assets/website/team-section_anti-agency.png` + `team-section_YOU-card_REFERENCE-MOCK.png` (design target; rebuild natively for motion, 9:16 = crop to 2–3 cards + the You? card).
 
 **BEAT: "10 to 20K in capital ready to deploy" (the qualifier).**
 → pop **$10–20K ready to deploy** — always shown, never softened; it's the filter doing its job.
