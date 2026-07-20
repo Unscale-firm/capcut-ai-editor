@@ -1,7 +1,7 @@
 # ADS TAPE MAP — where every ad lives on the raw shoot tapes
 ### Mic times on the session tapes in `~/Downloads/new ads/`. Rebuilt 2026-07-20 from build memories (original Friday table's scratchpad was wiped). Statuses as of 2026-07-20 evening.
 
-**Downloads naming:** early builds `F0x*.mp4` / `f01-*`, later builds `new-ad-<id>*.mp4`; `-h2/-h3` = hook variants; `-WITH-BROLLS` / `-broll-preview` = b-rolls baked. "How much AI do I need to know" = **aiq**. Sales-rep hiring = **recsales**, AI-engineer hiring = **receng** (alt build **aie**).
+**Downloads naming:** early builds `F0x*.mp4` / `f01-*`, later builds `new-ad-<id>*.mp4`; `-h2/-h3` = hook variants; `-WITH-BROLLS` / `-broll-preview` = b-rolls baked. "How much AI do I need to know" = **F23** (files `new-ad-f23*.mp4`; work dirs still `work_aiq*`). Sales-rep hiring = **recsales**, AI-engineer hiring = **receng** (alt build **aie**).
 
 ## Session 4 — `4.wav` (front C9452.MP4, side C0001.MP4, offsets 156.97 / 202.55)
 
@@ -35,7 +35,7 @@
 | F21 (escape routes ranked, row 13) | 54:09–58:35 | 3249–3515 | ✅ built + h2/h3 |
 | FOMO / wealth-transfer (soft "F-22" slate in row 13) | 58:46–63:17 | 3526–3797 | ✅ built |
 | F22 (do you need to quit your job, row 14) | 63:41–65:12 | 3821–3912 | ✅ built + h2/h3 |
-| "How much AI do I need to know" (**aiq**) | 65:19–66:39 | 3919–3999 | ✅ built + h2/h3, b-rolls baked |
+| F23 "How much AI do I need to know" (aiq) | 65:19–66:39 | 3919–3999 | ✅ built + h2/h3, b-rolls baked |
 | Sales-rep hiring, 2 scripts (**recsales**) | 67:25–72:14 | 4045–4234 | ✅ v3: dark b-rolls + 1.2x + silence pass |
 | AI-engineer hiring, 2 scripts (**receng**) | 72:13–73:42 | 4333–4422 | ✅ v4: dark b-rolls + 1.2x + silence pass |
 | AI-engineer alt build (**aie1/aie2**) | 70:35–73:43 | 4235–4423 | ✅ built, b-rolls baked |
