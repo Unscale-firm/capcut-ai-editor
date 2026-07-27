@@ -48,6 +48,7 @@ Dignity-gated: VSL only, never paid ads, ship only when assigned to a live incre
 | `freedom_selfie-rayan_playground.jpg` | Playground selfie, pirate cup, both laughing | present-father beat |
 | `freedom_pool-with-rayan.jpg` | Pool selfie, both smiling | presence/freedom |
 | `freedom_piano_rayan-watching_2024_23s.mp4` (+ `_CUT6s_MUTED`) | Amine playing piano, Rayan sitting behind watching | time-freedom texture; the CUT is edit-ready |
+| `rayan-baby-on-keyboard_trainings-grind-era.jpg` | Baby Rayan reaching over the laptop keyboard while Amine studies/works — the grind years WITH the promise beside him | Increment 4: candidate for "I had made my son a promise, so I kept going" (4.3) or "locked myself in and built a system" (4.5) — AMINE PICKS; VSL only |
 | `freedom_piano_toddler-rayan-balcony_2022_40s.mp4` (+ `_CUT6s_MUTED`) | 2022: piano while toddler Rayan plays on the balcony behind | works as a "years of presence" callback pair with the 2024 one |
 
 Assignment target: the freedom-payoff act (~Increment 6–7, exact timestamps when those
