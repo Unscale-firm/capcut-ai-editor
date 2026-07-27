@@ -24,6 +24,23 @@ Highlights: `Spiralyze 10 leads.png` · `6 interested leadsd in 12 hours.jpg` ·
 plus 12 more praise-reply screenshots. Primary home: the VSL "boom — replies" beat
 (Increment 5) + the ads' proof beats.
 
-## contracts/ · payments/ · endorsements/
-Incoming from Amine — each file gets analyzed, tagged, redacted as needed, and listed here
-with its clearance before it ships.
+## payments/ (added Jul 27 — VSL ONLY, invoice-POP treatment: amount + payer + "Settled" badge, 1–2s each)
+| File | What it shows | Note |
+|---|---|---|
+| `payment_fireside-dent_11137usd_ACH_may22-2026.png` | Fireside Dent · +$11,137.50 · Settled | ⭐ THE RECURRING SET — |
+| `payment_fireside-dent_11137usd_ACH_jun22-2026.png` | same client, next month, same amount | show all three in rapid |
+| `payment_fireside-dent_11137usd_ACH_jul17-2026.png` | and again | sequence = "they pay every single month" made visible |
+| `payment_savela-associates_10000usd_wire_jul22-2026.png` | Savela & Associates · +$10,000 wire · Settled | |
+| `payment_jason-batt_4005usd_ACH-in_jul13-2026_REDACTED-acct.png` | $4,005.16 ACH in | account number boxed — use as supplied |
+
+## contracts/ (VSL ONLY — headers/clauses only, never full terms)
+| File | What it shows |
+|---|---|
+| `contract_pangeatwo_60k-total_6x10k-monthly_compensation-clause.png` | Compensation clause: **$60,000 total, six monthly installments of $10,000** |
+
+⚠️ CLEARANCE PENDING FROM AMINE: the client names visible in these (Fireside Dent, Savela &
+Associates, PangeaTwo, Jason Batt) ship as-is ONLY once Amine confirms no NDA blocks showing
+them. Until then: staged, do not cut in. (The reply-screenshots section is fully cleared.)
+
+## endorsements/
+Incoming from Amine — analyzed, tagged, redacted as needed, listed here before shipping.
