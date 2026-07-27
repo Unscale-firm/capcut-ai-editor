@@ -38,9 +38,9 @@ plus 12 more praise-reply screenshots. Primary home: the VSL "boom — replies" 
 |---|---|
 | `contract_pangeatwo_60k-total_6x10k-monthly_compensation-clause.png` | Compensation clause: **$60,000 total, six monthly installments of $10,000** |
 
-⚠️ CLEARANCE PENDING FROM AMINE: the client names visible in these (Fireside Dent, Savela &
-Associates, PangeaTwo, Jason Batt) ship as-is ONLY once Amine confirms no NDA blocks showing
-them. Until then: staged, do not cut in. (The reply-screenshots section is fully cleared.)
+✅ CLEARED (Amine, Jul 27): all client names in these files — Fireside Dent, Savela &
+Associates, PangeaTwo, Jason Batt — are confirmed OK to show. Everything in payments/ and
+contracts/ is ready to cut (VSL only, per the usage rules above).
 
 ## endorsements/
 Incoming from Amine — analyzed, tagged, redacted as needed, listed here before shipping.
