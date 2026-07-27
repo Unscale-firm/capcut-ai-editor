@@ -25,7 +25,7 @@ All client tiles run CLEAN: no music over them, no burned captions on the tile.
 - REQUESTED FROM AMINE (optional): 2–3 McKinsey-era personal photos (Increment 2.1)
 - EDITOR BUILDS: 3 layoff chyron cards — AMAZON 30,000 corporate jobs · META 8,000 · ORACLE 21,000 (news-ticker style, Dark Ops/white; source screenshots to be filed by Amine's team before ship)
 
-## credibility_speaking/  (staged — slot assignments TBD by Amine, do NOT cut in yet)
+## credibility_speaking/  (ADS: Starfounders clips ASSIGNED by Amine Jul 24 — "founder of Unscale" beat in ad who-I-am passages (76_Ads_Edit_Maps); VSL slots still TBD, do not cut into VSL yet)
 Real footage of Amine speaking on stage — credibility inserts. All verified him speaking.
 - grad-speech_duke_podium-speaking_15m29s_2.5s.mp4 — Duke graduation speech, podium, gown, mid-word, gesturing
 - grad-hooding_duke_35m45s_4s.mp4 — the hooding moment + photo pose
@@ -33,13 +33,16 @@ Real footage of Amine speaking on stage — credibility inserts. All verified hi
 - conf_starfounders_speaking_2m20s_2s.mp4 / _2m37s_3s.mp4 / _3m40s_4s.mp4 — Starfounders conference stage, 4K (punch-in freely)
 ⚠️ Starfounders slides are FRENCH and one shows a € fundraising figure — use as fast 1–2s flashes only, never hold long enough to read. Natural homes (pending Amine): who-I-am 00:28–00:55 (would be REVISED 1.2), the $2M/Forbes beat 05:33 (Increment 3), offer-act credibility flashes.
 
-## increment-3_forbes+mirage/  (used at 05:33 — Increment 3.4)
+## increment-3_forbes+mirage/  (used at 05:33 — Increment 3.4 · ALSO in ads: ~1s wide-grid slice on "Forbes 30 Under 30" in who-I-am passages, per 76_Ads_Edit_Maps)
 - On forbes 30 under 30.webm — full-frame insert at 05:33 ("Forbes 30 [Under] 30 list… right next to Cara Delevingne"). 8.3s, 1690×992, muted.
   ⚠️ USE 0:00–0:07 ONLY (recorder toolbar enters frame in the last ~1.5s) · ⚠️ "Icecream Screen Recorder" watermark lower-right whole clip — scale ~8–10% + reframe or mask it out · the wide grid view at ~0:01.2-0:02.5 shows the full row: Amine card FIRST, then Greta Thunberg, then Cara Delevingne — hold that view as the Cara line is spoken (RESOLVED, no conflict).
 - forbes-30u30_still.png — pre-extracted frame (banner + Amine's card) if a freeze reads better than the scroll; watermark still present lower-right.
 - EDITOR BUILDS: TRAP 1·2·3 counter reveal state (TRAP 1 — CHASE A STARTUP lit, 2·3 grayed) — must match the 00:28 intro graphic exactly.
 - REQUESTED FROM AMINE (optional, dignity-gated): one newborn/holding-Rayan photo (Increment 3.1); the Cara-adjacent Forbes capture if preferred.
 - SUBSTANTIATION → E3.25 before paid traffic: $2M raise (document headers only) + Forbes 2020 listing URL.
+
+## REQUESTED — ads (76_Ads_Edit_Maps)
+- Screen capture of a REAL Unscale AI system / n8n workflow running (nodes lighting up), ~5–10s, 1080p+ — for the "my engineers do the entire work" proof flash (Ad 2 + reusable across the pack). Until it lands, editor uses the brand-style animated system-build graphic.
 
 ## Global rules (from the edit map)
 - Brand: Dark Ops / Orange Ember, DM Sans for all text cards.
