@@ -31,7 +31,7 @@
 2. **Guarantee = existence + pointer ONLY** ("backed by a guarantee, in writing, in the contract — details in the presentation"). The F-21 take adds terms: "we will keep working with you until you see results" — **cut that clause**; no guarantee TERMS in cold ads.
 3. Income figures: client-side retainers ($3–10K/mo) are fine. **Partner-income claims ("10 to 50K per month", "10, 20, 30K a month" — spoken in F-09/F-10 takes) may only survive if E3.25 substantiation is on file before spend** — flag each in QUESTIONS.md when cutting those ads.
 4. "10 new partners this quarter" = the real, locked scarcity — keep exactly as spoken; never tighten it.
-5. NO founder receipts and NO family/Rayan material in any paid ad (standing rule).
+5. Family/Rayan material NEVER in paid ads. Receipts (payments/contracts): only where an ✅ APPROVED per-ad section explicitly assigns them (founder override Jul 28); never freelance them in.
 
 **PROOF-ASSET MENU (all already in this repo — ads reuse them):**
 - **Reaction clips** (`GTM Plan` originals mirrored under `B-roll assets`): wow/superlative family for ads — `superlative_*`, `shock_awe_*`, `disbelief_*`, `validation_*` tiles. ⚠️ The buying-crescendo set (Damian "credit cards", Kully "when do I get to start") = VSL + F-08/AD-05 territory only — don't spread it across every ad.
@@ -39,7 +39,7 @@
 - **Credibility flashes**: `credibility_speaking/` (Starfounders 4K = punch-in freely for 9:16; Duke clips cleared for ADS use).
 - **Logos**: mckinsey / forbes / dropbox / airbnb SVGs + (pending) Unscale wordmark.
 - **Layoff chyrons** (F-07/F-14): AMAZON 30,000 · ORACLE 21,000 · META 8,000 — same substantiation gate as the VSL (E3.25 screenshots before spend).
-- **Grind selfies + rejection emails + Goodbye-McKinsey + scammed chat = VSL-ONLY** (receipts rule) — do NOT use in ads.
+- **Grind selfies + rejection emails + Goodbye-McKinsey + scammed chat = VSL-ONLY** — do NOT use in ads. Payment receipts: only where an approved section assigns them.
 - **F-20 Hospital Bed**: the hook says "This is me in the hospital" — REQUIRES the real hospital photo from Amine (same pending asset as VSL 2.4). Blocked until it lands.
 
 **AD INDEX from these transcripts** (IDs per `69_ALL_ADS_MASTER.md`): direct-offer master (2 long takes + 1 short) · F-01 · F-03 Shovels · F-04 Don't-Start-an-Agency · F-05 Zero-AI · F-06 You're-Not-Late · F-07 The Spreadsheet/Layoffs · F-08 Business Reactions · F-09 Biggest Mistake · F-10 If-I-Lost-Everything · F-11 Scammed-by-Gurus · F-12 Fatherhood · F-13 No-Longer-Have-to-Choose · F-14 Plan B · F-16 Twelve-Months-Split · F-18 Best-Business-to-Own · F-19 Don't-Build-a-Startup · F-20 Hospital Bed · F-21 Dead Models · F-22 Sidelines · Q&A: quit-your-job? + how-much-AI? · Recruitment: sales-rep DZ ×2 takes + AI-engineer DZ ×2 takes (separate campaign, separate map section when needed).
@@ -110,17 +110,24 @@
 ### F-20 · HOSPITAL BED — ⛔ BLOCKED
 - Hook 1 IS the real hospital photo ("This is me in the hospital") — cannot cut until Amine delivers the photo (same asset the VSL 2.4 slot is waiting for). Everything else follows the kit.
 
-### DIRECT-OFFER MASTER (the 2 long takes + the "ad number 3" short)
+### DIRECT-OFFER MASTER — ✅ APPROVED (founder, Jul 28)
 | When he says | Do | Asset / text |
 |---|---|---|
-| "best way to build wealth is not…" (hook) | strikethrough pops on cadence | ~~another promotion~~ ~~real estate~~ ~~picking stocks~~ → **owning an AI business** |
-| "My name is Amine…" | intro kit | flashes: `conf_starfounders_speaking_2m20s_2s` + `2m37s_3s` · logos as spoken |
-| "hundreds of clients around the world" | insert 2s | **`mosaic_hundreds-of-clients_9x16_15people_12s.mp4`** (native 9:16 — NEW) |
-| "3, 5, and even 10K per client… recurring" | pop + tile | **$3K · $5K · $10K /month** + `superlative_paul_very-impressive-toolset-excellent_4s` |
-| "My first client, Spiralyze, paid me 10K a month" | pop | **Spiralyze — $10K/month** |
-| "six figures of profit every single month" | pop | **six figures. every month.** (E3.25 substantiation gate) |
-| marketing/sales/engineers lines | 3-line stack | per kit |
-| CTA | button + pops | per kit |
+| hook "not grinding through another promotion…" | strikethrough pops on cadence | ~~another promotion~~ ~~real estate~~ ~~picking stocks~~ → **owning an AI business** (ember) |
+| "My name is Amine…" | intro kit | `conf_starfounders_speaking_2m20s_2s` at his name + `2m37s_3s` at "Unscale" · logos as spoken |
+| "hundreds of clients around the world" | insert 2s | `mosaic_hundreds-of-clients_9x16_15people_12s.mp4` |
+| "every business owner wants AI and they wanted yesterday" | insert 1.5s | `social-proof/reply-screenshots/how much you charge.png` — real prospect asking price |
+| "they pay you three, five, and even 10K per client" | **3 payment receipts punch in ascending as the numbers land** (~0.7s each, askew stack, amounts highlighted, Settled badges visible) + pop on top | `social-proof/payments/payment_jason-batt_4005usd_ACH-in_jul13-2026_REDACTED-acct.png` → `payment_savela-associates_10000usd_wire_jul22-2026.png` → `payment_fireside-dent_11137usd_ACH_jul17-2026.png` + **$3K · $5K · $10K /month** |
+| "on a recurring basis" | optional 0.5s flash | the other two Fireside months (`_may22` + `_jun22`) fan in behind — recurring made visible |
+| marketing/sales/engineers | 3-line stack | per kit |
+| "My first client, Spiralyze, paid me 10K a month… leads" | full-width insert 2s, push-in | `social-proof/reply-screenshots/Spiralyze 10 leads.png` |
+| "AI was doing the entire work for me" | machine-gun praise burst, ~0.5s each | `Best cold outreach email this year.jpg` → `wow huge positive replies.png` → `I never respond to cold outreach.jpg` |
+| "six figures of profit every single month" | pop | **six figures. every month.** (E3.25 gate) |
+| "can't write a single line of code" | clean frame | the line is the graphic |
+| alignment + guarantee | pops | **we earn WITH you** · **in writing. in the contract.** |
+| CTA + "10 to 20K of capital" | button (hold to end) + pop | **Watch the free presentation ⬇ · no email needed** + **$10–20K ready to deploy** |
+
+NOTE: founder override (Jul 28) — payment receipts ARE allowed in ads **where explicitly assigned in an approved section** (this supersedes the blanket receipts ban for those placements only; unassigned receipts stay out).
 
 ### F-01 · THE INSANE PART
 | When he says | Do | Asset / text |

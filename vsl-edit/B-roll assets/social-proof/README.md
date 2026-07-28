@@ -8,7 +8,7 @@ lands here — use as supplied, never un-redact anything.
 | `reply-screenshots/` (positive replies, lead counts, reply rates) | ✅ | ✅ |
 | `endorsements/` (client praise, testimonials in text form) | ✅ | ✅ |
 | `contracts/` (signed agreements) | ✅ DOCUMENT HEADERS ONLY — name/date/signature block, never full terms | ⛔ NEVER |
-| `payments/` (invoices, payment confirmations) | ✅ headers/amounts as invoice-POP style — NEVER bank balances, NEVER cash photos | ⛔ NEVER |
+| `payments/` (invoices, payment confirmations) | ✅ headers/amounts as invoice-POP style — NEVER bank balances, NEVER cash photos | ✅ ONLY where an approved ADS_EDIT_MAP section explicitly assigns them (founder, Jul 28) |
 
 - Receipts (contracts/payments) are VSL-exclusive — standing rule, no exceptions.
 - On-screen dwell: screenshots are inserts of 1–2.5s with the kill-line/number highlighted;
