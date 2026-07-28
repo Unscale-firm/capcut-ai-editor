@@ -88,9 +88,21 @@ Build it as ONE reusable sequence and drop it into every ad at the credential li
 ## PER-AD UNIQUE BEATS (only what the kit doesn't cover)
 **⚠️ REVIEW GATE (Jul 28): Amine is reviewing ads ONE BY ONE. Cut ONLY ads whose header carries ✅ APPROVED — all other sections are DRAFTS, do not cut yet.**
 
-### F-03 · SHOVELS 1849
-- "In 1849, the gold diggers went broke… the guys selling the shovels made fortunes" → NO stock gold-rush footage (no-stock rule). Treatment: bold text-card sequence in the brand style — **1849** → **the diggers went broke** → **the shovel-sellers got rich** — punching on his cadence; sepia/aged type treatment allowed on the cards themselves.
-- "the diggers are in the millions… chasing prompts, side hustles, faceless YouTube channels" → rapid strikethrough pops: ~~prompts~~ ~~side hustles~~ ~~faceless channels~~.
+### F-03 · SHOVELS 1849 — ✅ APPROVED (founder, Jul 28)
+| When he says | Do | Asset / text |
+|---|---|---|
+| hook "In 1849, the gold diggers went all broke…" | text cards AS OVERLAYS (≤40% frame / lower-third) while Amine stays on screen w/ punch-in steps — NEVER full-screen faceless cards | **1849** → **the diggers went broke** → **the shovel-sellers got rich** (sepia on type only, Dark Ops bg) → **it's happening again with AI** (ember) |
+| "diggers are in the millions… prompts, side hustles, faceless YouTube channels, AI tricks" | strikethrough pops on cadence | ~~prompts~~ ~~side hustles~~ ~~faceless channels~~ ~~AI tricks~~ |
+| "the shovel side — that's the businesses… no idea where to start" | insert 1.5s | `social-proof/reply-screenshots/Ready to be impressed.jpg` |
+| "paying us 3K, 5K…" | receipt punches in | `payments/payment_jason-batt_4005usd_ACH-in_jul13-2026_REDACTED-acct.png` (~0.7s — $4K sits inside the spoken range) |
+| "…even 10K per month" | receipt stacks on top + pop | `payments/payment_savela-associates_10000usd_wire_jul22-2026.png` (exact match on the number) + **$3K · $5K · $10K /month** |
+| "My name is Amine…" | THE STANDARD INTRO STING | per kit |
+| "hundreds of companies around the world" | insert 2s | `mosaic_hundreds-of-clients_9x16_15people_12s.mp4` |
+| "we hand it to partners" | pop | **we hand it to partners** |
+| marketing/sales/engineers | 3-line stack | per kit |
+| "you own 100% of it" | pop | **you own 100% of it** |
+| "ready to deploy 10–20K in capital" | pop | **$10–20K ready to deploy** |
+| CTA "free presentation… no email" | button to end + pop | **Watch the free presentation ⬇ · no email needed** |
 
 ### F-06 · YOU'RE NOT LATE (agents wave)
 - "ChatGPT was the appetizer. The main course is being served right now." → pops **the appetizer** / **the main course**.
