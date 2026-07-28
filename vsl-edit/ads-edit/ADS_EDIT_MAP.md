@@ -161,16 +161,21 @@ NOTE: founder override (Jul 28) — payment receipts ARE allowed in ads **where 
 | alignment + guarantee | pops | **we earn WITH you** · **in writing. in the contract.** |
 | CTA + "at least 10 to 20K" | kit | button + **$10–20K ready to deploy**; repel line on clean frame |
 
-### F-04 · DON'T START AN AI AGENCY
+### F-04 · DON'T START AN AI AGENCY — ✅ APPROVED (founder, Jul 28)
 | When he says | Do | Asset / text |
 |---|---|---|
-| Hook 1 "…and I'm telling you, do not start an AI agency" | card | **DON'T start an AI agency** |
-| "Month one… month four… month six" | timeline pops stacking | **MONTH 1 — learning tools** · **MONTH 4 — tools changed** · **MONTH 6 — still no clients** |
-| "no case studies and no name" | pops | **no case studies** / **no name** |
-| "you're on call, you have to fix it" | pop | **it becomes another job** |
-| "companies like mine" / intro | kit flash | `conf_starfounders_speaking_3m40s_4s` · logos |
-| "hundreds of clients" | insert | 9:16 mosaic |
-| offer stack + CTA | kit | |
+| hook "…do NOT start an AI agency" | overlay card (Amine stays on screen, punch-in) | **DON'T start an AI agency** + **six figures /month** pop (E3.25 gate) |
+| "Month one… month four… month six" | month cards stack left WHILE camera alternates punch-in steps on Amine | **M1 — learning tools** · **M4 — tools changed** · **M6 — still no clients** |
+| "no case studies and no name" | struck pops | ~~no case studies~~ ~~no name~~ |
+| "on call… 11 at night" | pop | **on call at 11pm** |
+| "it becomes another job" | pop, ember, most room — the thesis | **it becomes another job.** |
+| "businesses trust companies like mine" | receipt insert 1s (trust→payment scent) | `payments/payment_fireside-dent_11137usd_ACH_jul17-2026.png` |
+| "My name is Amine…" | THE STANDARD INTRO STING | per kit |
+| "hundreds of clients around the world" | insert 2s | 9:16 mosaic |
+| "Don't start from scratch. Partner with Unscale" | pop | **don't start from scratch — partner** |
+| marketing/sales/engineers | 3-line stack | per kit |
+| "every business on earth is buying AI" | pop | **every business is buying AI** |
+| CTA + "10 to 20K in capital" | button to end + pop | **Watch the free presentation ⬇ · no email needed** + **$10–20K ready to deploy** |
 
 ### F-05 · ZERO AI REQUIRED
 | When he says | Do | Asset / text |
