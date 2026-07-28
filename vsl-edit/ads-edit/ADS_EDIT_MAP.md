@@ -50,9 +50,13 @@
 
 **BEAT: the hook (0–3s).** No b-roll on hooks — Amine's face + a punch-in + the hook's key words popping as burned caption highlights. The first frame must already be in motion.
 
-**BEAT: "My name is Amine, ex-McKinsey, Forbes 30 Under 30, founder/I run Unscale."**
-→ *(founder instruction)* **Stage flashes of Amine speaking in public**, exactly like the VSL: `credibility_speaking/conf_starfounders_speaking_2m20s_2s.mp4` (~1s, punch into 9:16 from the 4K) at "My name is Amine", then `conf_starfounders_speaking_2m37s_3s.mp4` (the wide) at "Unscale". The Duke clips (`grad-speech`, `grad-hooding`) are CLEARED for ads — rotate them in across different ads so retargeted viewers don't see identical intros (e.g. Duke speech in F-03/F-09, Starfounders in F-01/F-05…). **Logos land as spoken**: McKinsey → Forbes → Unscale marks (white/mono, small, lower third).
-→ On "Forbes 30 Under 30": optionally flash `increment-3_forbes+mirage/forbes-30u30_grid-alt_from-ppt.png` (~0.7s, his card visible) — genuine page, overlay ring on his face allowed, never alter the page.
+**BEAT: "My name is Amine, ex-McKinsey, Forbes 30 Under 30, founder/I run Unscale." → THE STANDARD INTRO STING (founder ruling Jul 28: build ONCE, use the SAME compilation in EVERY ad — no rotation).**
+The sting (~3.5–4s, synced to his spoken credential line):
+1. `credibility_speaking/conf_starfounders_speaking_2m20s_2s.mp4` (~1s, punched into 9:16) on "My name is Amine" — him speaking on stage
+2. `increment-3_forbes+mirage/forbes-30u30_grid-alt_from-ppt.png` (~0.8s, his card visible, glow ring on his face — never alter the page) on "Forbes 30 Under 30"
+3. `credibility_speaking/conf_starfounders_speaking_2m37s_3s.mp4` (~1s, the wide — him commanding the stage) on "Unscale"
+4. Throughout: logos landing as spoken (McKinsey → Forbes → Unscale, white/mono, lower third) + name card *Amine — ex-McKinsey · Forbes 30 Under 30 · Founder, Unscale*
+Build it as ONE reusable sequence and drop it into every ad at the credential line. (Duke clips = spares for non-intro uses only.)
 
 **BEAT: "implemented AI for hundreds of clients around the world/US."**
 → `mosaic_hundreds-of-clients_40tiles-20people-zoomout_15s.mp4` — for 9:16: center-crop pan across the grid (or request a native 9:16 rebuild). ~2s. Alt: the 20-people static grid with a slow push.
@@ -114,7 +118,7 @@
 | When he says | Do | Asset / text |
 |---|---|---|
 | hook "not grinding through another promotion…" | strikethrough pops on cadence | ~~another promotion~~ ~~real estate~~ ~~picking stocks~~ → **owning an AI business** (ember) |
-| "My name is Amine…" | intro kit | `conf_starfounders_speaking_2m20s_2s` at his name + `2m37s_3s` at "Unscale" · logos as spoken |
+| "My name is Amine…" | THE STANDARD INTRO STING | per kit — same compilation in every ad |
 | "hundreds of clients around the world" | insert 2s | `mosaic_hundreds-of-clients_9x16_15people_12s.mp4` |
 | "every business owner wants AI and they wanted yesterday" | insert 1.5s | `social-proof/reply-screenshots/how much you charge.png` — real prospect asking price |
 | "they pay you three, five, and even 10K per client" | **3 payment receipts punch in ascending as the numbers land** (~0.7s each, askew stack, amounts highlighted, Settled badges visible) + pop on top | `social-proof/payments/payment_jason-batt_4005usd_ACH-in_jul13-2026_REDACTED-acct.png` → `payment_savela-associates_10000usd_wire_jul22-2026.png` → `payment_fireside-dent_11137usd_ACH_jul17-2026.png` + **$3K · $5K · $10K /month** |
@@ -129,16 +133,21 @@
 
 NOTE: founder override (Jul 28) — payment receipts ARE allowed in ads **where explicitly assigned in an approved section** (this supersedes the blanket receipts ban for those placements only; unassigned receipts stay out).
 
-### F-01 · THE INSANE PART
+### F-01 · THE INSANE PART — ✅ APPROVED (founder, Jul 28)
 | When he says | Do | Asset / text |
 |---|---|---|
 | Hook 3 "I'm giving my machine away to complete strangers" | pop | **giving my machine away** |
 | "Here is the insane part… my marketing team, my sales team, my engineers, my brand" | 4 rapid stacking pops | **MY MARKETING** · **MY SALES** · **MY ENGINEERS** · **MY BRAND** |
-| intro | kit flashes | Starfounders pair · logos |
-| "desperate for AI right now" | insert 2s | 9:16 mosaic |
-| "pay us 3K, 5K, even 10K per month" | pop + tile | $ pop + `shock_awe_tim_heads-spinning_4s` |
-| "every month we turn away work" | pop | **we turn away work** |
-| CTA + "at least 10 to 20K" | kit | button + qualifier pop |
+| hook "3 to 10K a month" | receipts punch in on the numbers | "3" → `payments/payment_jason-batt_4005usd_ACH-in_jul13-2026_REDACTED-acct.png` (~0.7s) · "10K" → `payment_savela-associates_10000usd_wire_jul22-2026.png` stacks on top · both out on "something insane" |
+| "giving my machine away to complete strangers" | pop | **giving my machine away** |
+| intro | THE STANDARD INTRO STING | per kit |
+| "millions of businesses are desperate for AI" | insert 1.5s | `social-proof/reply-screenshots/IT services qualified meeting.jpg` |
+| "3K, 5K, even 10K per month in recurring revenue" | Fireside recurring trio fans in (~0.5s each) | `payments/payment_fireside-dent_11137usd_ACH_may22-2026.png` → `_jun22` → `_jul17` — same client, three months |
+| "every month we turn away work" | pop, then clean frame | **we turn away work** |
+| "even myself will jump on calls with you" | pop | **Amine on your calls** |
+| "real people… helping change their lives" | insert 2s | 9:16 mosaic |
+| alignment + guarantee | pops | **we earn WITH you** · **in writing. in the contract.** |
+| CTA + "at least 10 to 20K" | kit | button + **$10–20K ready to deploy**; repel line on clean frame |
 
 ### F-04 · DON'T START AN AI AGENCY
 | When he says | Do | Asset / text |
