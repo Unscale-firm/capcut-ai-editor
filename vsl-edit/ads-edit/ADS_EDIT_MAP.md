@@ -82,6 +82,7 @@
 ---
 
 ## PER-AD UNIQUE BEATS (only what the kit doesn't cover)
+**⚠️ REVIEW GATE (Jul 28): Amine is reviewing ads ONE BY ONE. Cut ONLY ads whose header carries ✅ APPROVED — all other sections are DRAFTS, do not cut yet.**
 
 ### F-03 · SHOVELS 1849
 - "In 1849, the gold diggers went broke… the guys selling the shovels made fortunes" → NO stock gold-rush footage (no-stock rule). Treatment: bold text-card sequence in the brand style — **1849** → **the diggers went broke** → **the shovel-sellers got rich** — punching on his cadence; sepia/aged type treatment allowed on the cards themselves.
