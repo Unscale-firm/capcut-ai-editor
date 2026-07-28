@@ -33,7 +33,7 @@
 
 **PROOF-ASSET MENU (all already in this repo — ads reuse them):**
 - **Reaction clips** (`GTM Plan` originals mirrored under `B-roll assets`): wow/superlative family for ads — `superlative_*`, `shock_awe_*`, `disbelief_*`, `validation_*` tiles. ⚠️ The buying-crescendo set (Damian "credit cards", Kully "when do I get to start") = VSL + F-08/AD-05 territory only — don't spread it across every ad.
-- **Mosaics**: `mosaic_hundreds-of-clients_40tiles-20people-zoomout_15s.mp4` (16:9 — for 9:16 use a center-crop pan, or ask and a native 9:16 rebuild will be pushed) + 20-people static.
+- **Mosaics**: NATIVE 9:16 = `mosaic_hundreds-of-clients_9x16_15people_12s.mp4` (3×5 grid, built for ads — use this one). 16:9 alternates: 40-tile zoomout + 20-people static (VSL).
 - **Credibility flashes**: `credibility_speaking/` (Starfounders 4K = punch-in freely for 9:16; Duke clips cleared for ADS use).
 - **Logos**: mckinsey / forbes / dropbox / airbnb SVGs + (pending) Unscale wordmark.
 - **Layoff chyrons** (F-07/F-14): AMAZON 30,000 · ORACLE 21,000 · META 8,000 — same substantiation gate as the VSL (E3.25 screenshots before spend).
@@ -107,4 +107,157 @@
 ### F-20 · HOSPITAL BED — ⛔ BLOCKED
 - Hook 1 IS the real hospital photo ("This is me in the hospital") — cannot cut until Amine delivers the photo (same asset the VSL 2.4 slot is waiting for). Everything else follows the kit.
 
-*(More per-ad sections on request — tell Unscale which ads are in the active batch and they'll be added within the hour.)*
+### DIRECT-OFFER MASTER (the 2 long takes + the "ad number 3" short)
+| When he says | Do | Asset / text |
+|---|---|---|
+| "best way to build wealth is not…" (hook) | strikethrough pops on cadence | ~~another promotion~~ ~~real estate~~ ~~picking stocks~~ → **owning an AI business** |
+| "My name is Amine…" | intro kit | flashes: `conf_starfounders_speaking_2m20s_2s` + `2m37s_3s` · logos as spoken |
+| "hundreds of clients around the world" | insert 2s | **`mosaic_hundreds-of-clients_9x16_15people_12s.mp4`** (native 9:16 — NEW) |
+| "3, 5, and even 10K per client… recurring" | pop + tile | **$3K · $5K · $10K /month** + `superlative_paul_very-impressive-toolset-excellent_4s` |
+| "My first client, Spiralyze, paid me 10K a month" | pop | **Spiralyze — $10K/month** |
+| "six figures of profit every single month" | pop | **six figures. every month.** (E3.25 substantiation gate) |
+| marketing/sales/engineers lines | 3-line stack | per kit |
+| CTA | button + pops | per kit |
+
+### F-01 · THE INSANE PART
+| When he says | Do | Asset / text |
+|---|---|---|
+| Hook 3 "I'm giving my machine away to complete strangers" | pop | **giving my machine away** |
+| "Here is the insane part… my marketing team, my sales team, my engineers, my brand" | 4 rapid stacking pops | **MY MARKETING** · **MY SALES** · **MY ENGINEERS** · **MY BRAND** |
+| intro | kit flashes | Starfounders pair · logos |
+| "desperate for AI right now" | insert 2s | 9:16 mosaic |
+| "pay us 3K, 5K, even 10K per month" | pop + tile | $ pop + `shock_awe_tim_heads-spinning_4s` |
+| "every month we turn away work" | pop | **we turn away work** |
+| CTA + "at least 10 to 20K" | kit | button + qualifier pop |
+
+### F-04 · DON'T START AN AI AGENCY
+| When he says | Do | Asset / text |
+|---|---|---|
+| Hook 1 "…and I'm telling you, do not start an AI agency" | card | **DON'T start an AI agency** |
+| "Month one… month four… month six" | timeline pops stacking | **MONTH 1 — learning tools** · **MONTH 4 — tools changed** · **MONTH 6 — still no clients** |
+| "no case studies and no name" | pops | **no case studies** / **no name** |
+| "you're on call, you have to fix it" | pop | **it becomes another job** |
+| "companies like mine" / intro | kit flash | `conf_starfounders_speaking_3m40s_4s` · logos |
+| "hundreds of clients" | insert | 9:16 mosaic |
+| offer stack + CTA | kit | |
+
+### F-05 · ZERO AI REQUIRED
+| When he says | Do | Asset / text |
+|---|---|---|
+| Hook 1 "you don't need to learn AI… I'll prove it in 30 seconds" | pop | **zero AI required** |
+| "partners never touch a tool… never write a single line of code" | pops | **never touch a tool** / **not one line of code** |
+| "my engineers handle every piece" | stack line | **ENGINEERING → delivers everything** |
+| "the one thing that cannot be downloaded" | pop, hold | **credibility can't be downloaded** |
+| "I still cannot write a single line of code" | pop (Orange Ember — the objection-kill) | **I can't code either.** |
+| intro | kit flash | Duke: `grad-speech_duke_podium-speaking_15m29s_2.5s` · logos |
+| "3 to 10K per month… people they trust" | pop + tile | $ pop + `superlative_nick_quite-exciting-very-interested_6s` |
+
+### F-10 · IF I LOST EVERYTHING
+| When he says | Do | Asset / text |
+|---|---|---|
+| Hook "if I lost everything tomorrow…" | pops | **my firm** / **my clients** / **my name** — struck through one by one |
+| "Step number one: I would not quit my job" | numbered card | **STEP 1 — don't quit your job** |
+| "build the bridge before you cross it" | pop | **build the bridge first** |
+| "Step number two: not start an agency from scratch" | card | **STEP 2 — no agency from scratch** |
+| "Step number three… credibility… plug it into a firm that owns the machine" | card | **STEP 3 — plug into the machine** |
+| intro | kit flash | `conf_starfounders_speaking_2m20s_2s` · logos |
+| "10, 20, 30K a month with AI" | ⚠️ | income-claim gate (E3.25) — flag in QUESTIONS.md |
+
+### F-11 · SCAMMED BY GURUS
+| When he says | Do | Asset / text |
+|---|---|---|
+| Hook 2 "ask them what happens after you pay, then watch their face" | pop | **ask what happens AFTER you pay** |
+| "the day you pay… is the day it ends" | pop | **the day you pay, it ends** |
+| "a folder of videos" | pop | **a folder of videos** |
+| "I built the exact opposite… the shortcut I wanted" | pop | **I built the opposite** |
+| "real clients you can watch on camera, not anonymous screenshots" | 2–3 rapid tiles | `validation_musa_great-presentation_9s` (trim 3s) + `superlative_jamie_capability-very-impressive_1s` + `disbelief_matthew_very-good-automatic-generation_4s` (trim 2s) |
+| "every guru makes his money from you. We make our money with you." | 2 pops | **FROM you** / **WITH you** |
+| intro + CTA | kit | Starfounders wide · logos · button |
+
+### F-12 · FATHERHOOD — ⚠️ SPECIAL RULES
+NO client tiles, NO family photos (family material never in ads — the ad is ABOUT fatherhood but shows only Amine talking; his words carry it). Quiet kit: pops only.
+| When he says | Do | Asset / text |
+|---|---|---|
+| "my father worked himself to the bone" | nothing | clean — dignity |
+| "I was turning into my father, just with a better title" | pop, small | **a better title** |
+| "AI does the heavy lifting… so I don't have to" | pop | **the systems work around the clock** |
+| "I drop off my son at school… pick him up" | pop, warm | **I'm there. Every day.** |
+| intro + offer + CTA | kit (no tiles) | Starfounders wide only · logos · button |
+
+### F-13 · YOU NO LONGER HAVE TO CHOOSE
+| When he says | Do | Asset / text |
+|---|---|---|
+| Hook "keep my salary or own a business… that died a few years ago" | split cards | **SALARY** ⟷ **BUSINESS** → both cards merge |
+| "golden cage at McKinsey… salary everybody envied" | pop | **the golden cage** |
+| "agentic AI changed the game" | pop | **agentic AI changed the game** |
+| "we only make money when you make money" | pop | per founder ruling — keep as spoken |
+| intro | kit flash | `conf_starfounders_speaking_2m37s_3s` · logos |
+| "3-10K retainers" | pop + tile | $ pop + `superlative_musa_i-love-this-i-love-your-process_2s` |
+
+### F-14 · PLAN B
+| When he says | Do | Asset / text |
+|---|---|---|
+| Hook "if your corporate job fires you tomorrow, what is your Plan B?" | pop | **what's your Plan B?** |
+| Hook 4 / layoffs context | chyrons if the cut uses that hook | AMAZON — 30,000 · ORACLE — (pending ruling) · META — 8,000 (E3.25 gate) |
+| "a Plan B built in panic… bound to fail" | pop | **built in panic = fails** |
+| "built early compounds quietly for years" | pop | **built early, compounds quietly** |
+| intro | kit flash | Duke: `grad-hooding_duke_35m45s_4s` (2s) · logos |
+| offer + CTA | kit | |
+
+### F-16 · TWELVE MONTHS SPLIT-SCREEN
+The ad IS a split ledger — build it visually:
+| When he says | Do | Asset / text |
+|---|---|---|
+| "let me run a split screen with you" | screen splits: LEFT "ALONE" / RIGHT "WITH UNSCALE" headers | ledger begins |
+| alone timeline ("months 1–3 learning… month 12 exhausted") | LEFT column rows punch in, red-tinted | **M1–3 learning tools** · **M4–6 cold emails into oblivion** · **M9 first small client** · **M12 exhausted, giving up** |
+| with-us timeline ("month one… booking calls…") | RIGHT column rows, ember-tinted | **M1 calls booked** · **first calls closed WITH you** · **M12 owned business, recurring clients** |
+| "3 to 10K a month" | pop + tile | $ pop + `superlative_damian_yeah-brilliant_1s` |
+| intro + CTA | kit | Starfounders pair · logos · button |
+
+### F-18 · BEST BUSINESS TO OWN
+| When he says | Do | Asset / text |
+|---|---|---|
+| Hook strikethroughs | pops | ~~e-commerce~~ ~~dropshipping~~ ~~content~~ |
+| Hook 2 "I've built three businesses…" | 3 stacking pops | **startup — raised $2M** · **coaching — $1M/yr** · **agency — $3M** |
+| "recurring revenue / demand > supply / no product risk" | numbered cards | **1 — RECURRING REVENUE** · **2 — DEMAND > SUPPLY** · **3 — NO PRODUCT RISK** |
+| "six figures in profit every single month" | pop | (E3.25 gate) |
+| "the real gap… is trust" | pop, hold | **the gap is TRUST** |
+| intro | kit flash | Forbes grid-alt flash + logos |
+
+### F-19 · DON'T BUILD A STARTUP
+| When he says | Do | Asset / text |
+|---|---|---|
+| Hook "I raised $2 million… made the Forbes 30 Under 30… worst mistake" | pop + flash | **$2 MILLION** + `forbes-30u30_grid-alt_from-ppt.png` (0.7s) |
+| "one bet in a portfolio of 100… 99 failures" | 2 pops | **one bet in 100** / **99 failures** |
+| "begged hundreds of investors" | insert 1.9s | `scalex_ycombinator-slide_11m03s_slow075x.mp4` |
+| "grow at all costs… burning cash… chasing the next round" | 3 cadence pops | **GROW** · **BURN** · **CHASE** |
+| "a slave to the venture capitalist" | pop | **a slave to the VCs** |
+| "built FOR you and not bet ON you" | pop, hold (the thesis) | **built FOR you, not bet ON you** |
+| intro + CTA | kit | logos · button (NO grind selfies / NO rejection emails — receipts stay VSL-only) |
+
+### F-21 · DEAD MODELS (ranked list)
+| When he says | Do | Asset / text |
+|---|---|---|
+| each model as ranked | list rows punch in, struck as dismissed | **1 dropshipping — dead** · **2 Amazon FBA — 20K inventory** · **3 affiliate — top 1% only** · **4 crypto — a casino** · **5 startup — I did that one** |
+| "a year without a salary… behind those magazine photos" | pop | **behind the magazine photos** |
+| "the one thing that actually fits… AI implementation" | card, ember | **AI implementation** |
+| "installed on day one" | pop | **installed on day one** |
+| ⚠️ guarantee clause | CUT "until you see results" | kill-list #2 |
+| intro + CTA | kit | Starfounders 3m40s · logos |
+
+### F-22 · SIDELINES
+| When he says | Do | Asset / text |
+|---|---|---|
+| "you watched the internet make other people rich… then crypto, then e-commerce" | wave pops stacking | **the internet** · **crypto** · **e-commerce** — then **AI** lands in ember |
+| "will they know you or just tell you about it" | pop, hold — the ⭐ line | **know you — or tell you about it?** |
+| "the courses looked like scams… the gurus looked fake" | pops | **scams** / **fake** |
+| "I built a door that is the right one" | pop | **so I built the door** |
+| "you are the face, you are the trust" | pop | **you are the trust** |
+| "Google me, Google Unscale" | pop | **Google me.** |
+| intro | kit flashes | Duke speech 2.5s · logos · 9:16 mosaic on "hundreds of clients" |
+
+### Q&A SHORTS (BOF retargeting)
+**Q1 "Do you need to quit your job?":** pops — **5 to 8 hours a week** · **keep your career** · **strength, not desperation** · "so much gray hair" gets a small self-deprecating pop **so much gray hair**. No tiles.
+**Q2 "How much AI do you need to know?":** pops — **none. zero.** · **never write a line of code** · **relationships · trust · decisions**. One tile allowed: `superlative_kully_love-that-ai-thing_3s`.
+
+*(Recruitment ads (DZ sales rep + AI engineer) get their own section when that campaign is scheduled — different audience, different kit.)*
