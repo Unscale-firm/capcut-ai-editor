@@ -5,7 +5,7 @@
 
 ## GLOBAL SPEC (read once — applies to every ad)
 
-**⚙️ CRAFT LAYER: read `../EDITING_CRAFT.md` first** — entrance-on-the-noun, exit timings (stills 1.5–2.5s / clips 2–4s), Ken Burns on every still, memory-vs-evidence treatments, L-cut audio (VO continuous under muted inserts), pop animation ≤200ms, callback ceiling (max 3 uses per asset), and the muted-playthrough test. The cue tables below say WHAT and WHEN; the craft doc says HOW.
+**⚙️ CRAFT LAYER: read `EDITING_CRAFT.md` (this folder) first** — entrance-on-the-noun, exit timings (stills 1.5–2.5s / clips 2–4s), Ken Burns on every still, memory-vs-evidence treatments, L-cut audio (VO continuous under muted inserts), pop animation ≤200ms, callback ceiling (max 3 uses per asset), and the muted-playthrough test. The cue tables below say WHAT and WHEN; the craft doc says HOW.
 
 **Format:** 1080×1920 (9:16). Amine framed center; keep his face in the top ⅔ (Meta UI overlays eat the bottom ~15%).
 **Pacing:** same rule as the VSL — something changes every 3–4 seconds (angle/punch-in/insert/pop). Hooks are 0–3s: the FIRST frame must already be moving (punch-in or pop mid-build).

@@ -1,5 +1,5 @@
-# EDITING_CRAFT.md — b-roll & insert craft (applies to the VSL AND every ad)
-Read once; every cue table in 73_VSL_Edit_Map.md and ads-edit/ADS_EDIT_MAP.md assumes these rules.
+# EDITING_CRAFT.md — b-roll & insert craft — **ADS ONLY**
+Applies to every ad cue table in ADS_EDIT_MAP.md. Does NOT apply to the VSL: the VSL is cut exactly per 73_VSL_Edit_Map.md as written — do not re-pass or restyle VSL work against this doc.
 
 The job of every insert: **prove or amplify the sentence being spoken, then get out.**
 If an insert doesn't do one of those two things, it's noise — cut it.

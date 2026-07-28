@@ -5,8 +5,6 @@ Timestamps = the final video `vsl-captioned.mp4` (18:20, 1.15x). Every section b
 
 ## GLOBAL RULES (read once)
 
-**⚙️ CRAFT LAYER: `EDITING_CRAFT.md` (repo root of vsl-edit/) — the HOW behind every cue below:** entrance-on-the-noun, exit timings, Ken Burns on stills, memory-vs-evidence treatment, L-cut audio, pop animation specs, callback ceiling, the muted-playthrough test.
-
 1. **PACING — something changes every 3–4 seconds, everywhere.** A change = angle switch (A↔B) · punch-in/out (5–10% zoom step) · insert · text pop landing or clearing. Cut angles on phrase/breath boundaries, never mid-word. Heavy emotional beats (2.3–2.5, the father passage in 3.2): use slow push-ins, not hard flips.
 2. **CAMERA:** DIRECT (A-cam) = talking to the lens — home base for hooks, CTAs, warnings. SIDE = story register. The per-section CAMERA line is the home base, not a no-cut rule.
 3. **TEXT POPS:** Amine's exact spoken words only, max ~5 words, DM Sans on Dark Ops, accents in Orange Ember. Never paraphrase.
