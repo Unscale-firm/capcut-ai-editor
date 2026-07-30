@@ -52,7 +52,9 @@
 
 **BEAT: "My name is Amine, ex-McKinsey, Forbes 30 Under 30, founder/I run Unscale."**
 → *(founder instruction)* **Stage flashes of Amine speaking in public**, exactly like the VSL: `credibility_speaking/conf_starfounders_speaking_2m20s_2s.mp4` (~1s, punch into 9:16 from the 4K) at "My name is Amine", then `conf_starfounders_speaking_2m37s_3s.mp4` (the wide) at "Unscale". The Duke clips (`grad-speech`, `grad-hooding`) are CLEARED for ads — rotate them in across different ads so retargeted viewers don't see identical intros (e.g. Duke speech in F-03/F-09, Starfounders in F-01/F-05…). **Logos land as spoken**: McKinsey → Forbes → Unscale marks (white/mono, small, lower third).
-→ On "Forbes 30 Under 30": optionally flash `increment-3_forbes+mirage/forbes-30u30_grid-alt_from-ppt.png` (~0.7s, his card visible) — genuine page, overlay ring on his face allowed, never alter the page.
+→ On "Forbes 30 Under 30": flash `increment-3_forbes+mirage/forbes-30u30_2020-list_amine-first-tile.png` — genuine page, overlay ring on his face allowed, never alter the page.
+  **⚠️ ASSET CORRECTED (founder ruling Jul 30):** use the **2020 list** file above, NOT `forbes-30u30_grid-alt_from-ppt.png` and NOT `forbes-30u30_still.png`. Both of those are the wrong page — a European-founders grid where Amine appears bottom-row in a **two-person photo with his co-founder** (and `_still` carries an "Icecream Screen Recorder" watermark). On the correct 2020 list he is the **FIRST tile, top-left, in his own solo portrait**, on the same page as Greta Thunberg · Cara Delevingne · Lewis Capaldi · Paul George — that company is the credential, so the peer names are worth showing.
+  **Treatment (learned on F-19):** 0.7s is too short to read a card. Crop tight to HIS tile so it fills the frame (the full grid makes him one of ten strangers), pair it with the real Forbes masthead cropped from the same page — red bar + "THE 2020 LIST" + the 30-UNDER-30 badge — and hold ~1.5s. **No zoom/drift inside the flash**: internal motion on a sub-second insert reads as lag.
 
 **BEAT: "implemented AI for hundreds of clients around the world/US."**
 → `mosaic_hundreds-of-clients_40tiles-20people-zoomout_15s.mp4` — for 9:16: center-crop pan across the grid (or request a native 9:16 rebuild). ~2s. Alt: the 20-people static grid with a slow push.
@@ -225,12 +227,12 @@ The ad IS a split ledger — build it visually:
 | "recurring revenue / demand > supply / no product risk" | numbered cards | **1 — RECURRING REVENUE** · **2 — DEMAND > SUPPLY** · **3 — NO PRODUCT RISK** |
 | "six figures in profit every single month" | pop | (E3.25 gate) |
 | "the real gap… is trust" | pop, hold | **the gap is TRUST** |
-| intro | kit flash | Forbes grid-alt flash + logos |
+| intro | kit flash | Forbes 2020-list flash (`forbes-30u30_2020-list_amine-first-tile.png`) + logos |
 
 ### F-19 · DON'T BUILD A STARTUP
 | When he says | Do | Asset / text |
 |---|---|---|
-| Hook "I raised $2 million… made the Forbes 30 Under 30… worst mistake" | pop + flash | **$2 MILLION** + `forbes-30u30_grid-alt_from-ppt.png` (0.7s) |
+| Hook "I raised $2 million… made the Forbes 30 Under 30… worst mistake" | pop + flash | **$2 MILLION** + `forbes-30u30_2020-list_amine-first-tile.png` (~1.5s, cropped to his tile + real masthead — see kit note) |
 | "one bet in a portfolio of 100… 99 failures" | 2 pops | **one bet in 100** / **99 failures** |
 | "begged hundreds of investors" | insert 1.9s | `scalex_ycombinator-slide_11m03s_slow075x.mp4` |
 | "grow at all costs… burning cash… chasing the next round" | 3 cadence pops | **GROW** · **BURN** · **CHASE** |
