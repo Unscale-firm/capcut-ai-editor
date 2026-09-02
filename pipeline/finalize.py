@@ -6,12 +6,14 @@ Stage 3 of the ad machine: FINALIZE — turn the cut into the Remotion `new-ad` 
 
 Run:  venv/Scripts/python.exe pipeline/finalize.py --work work_cut
 """
-import json, os, re, subprocess, argparse
+import json, os, re, subprocess, argparse, sys
 
 FF = r"C:\Users\User\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-8.1.1-full_build\bin\ffmpeg.exe"
 if not os.path.exists(FF):
     FF = "ffmpeg"  # non-Windows: use ffmpeg from PATH
 VID = r"C:\Users\User\my-video"
+if not os.path.exists(VID):
+    VID = os.path.expanduser("~/my-video")  # non-Windows: use my-video from home
 HERE = os.path.dirname(__file__)
 SPEED, FPS = 1.1, 30
 
@@ -33,7 +35,7 @@ def main():
 
     # 2) captions -> src/captionsData.ts
     cap_out = os.path.join(VID, "src", "captionsData.ts")
-    subprocess.run(["python", os.path.join(HERE, "gen_captions.py"),
+    subprocess.run([sys.executable, os.path.join(HERE, "gen_captions.py"),
                     os.path.join(a.work, "words_cut.json"), "--speed", str(SPEED),
                     "--fps", str(FPS), "--out", cap_out], check=True)
 

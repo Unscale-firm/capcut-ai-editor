@@ -18,6 +18,8 @@ FF = r"C:\Users\User\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microso
 if not os.path.exists(FF):
     FF = "ffmpeg"  # non-Windows: use ffmpeg from PATH
 SR = 16000
+# spelling hint for Whisper (proper nouns it otherwise mangles: Amin, McKenzie, OnScale, 430)
+NAMES_HINT = "Amine, ex-McKinsey consultant, Forbes 30 Under 30, founder of Unscale, an AI agency."
 
 def extract_audio(src, dst):
     if os.path.exists(dst):
@@ -50,19 +52,29 @@ def find_offset(cam, mic, max_lag_s=30):
     best = lags[m][np.argmax(corr[m])]
     return best / SR
 
-def transcribe(mic_wav, out_json):
+def transcribe(mic_wav, out_json, model_name="large-v3"):
     if os.path.exists(out_json):
         print("  cached words.json"); return json.load(open(out_json))
     from faster_whisper import WhisperModel
-    print("  loading whisper (base)...")
-    model = WhisperModel("base", device="cpu", compute_type="int8")
-    segs, _ = model.transcribe(mic_wav, language="en", word_timestamps=True, vad_filter=True)
+    # large-v3 on the GPU: far fewer merged / dropped short words than `base`, and tighter word
+    # boundaries. The cut points themselves are snapped to silence afterwards (seams.py), so the
+    # timestamps only need to be roughly right.
+    try:
+        print(f"  loading whisper ({model_name}, cuda)...")
+        model = WhisperModel(model_name, device="cuda", compute_type="float16")
+    except Exception as e:
+        print(f"  cuda unavailable ({str(e)[:80]}) -> cpu int8")
+        model = WhisperModel(model_name, device="cpu", compute_type="int8")
+    segs, _ = model.transcribe(mic_wav, language="en", word_timestamps=True, vad_filter=True,
+                               vad_parameters=dict(min_silence_duration_ms=500, speech_pad_ms=400),
+                               condition_on_previous_text=False, initial_prompt=NAMES_HINT)
     words = []
     for s in segs:
         for w in (s.words or []):
             words.append({"start": round(w.start, 3), "end": round(w.end, 3), "word": w.word.strip(),
                           "p": round(getattr(w, "probability", 1.0), 3)})
     json.dump(words, open(out_json, "w"), ensure_ascii=False)
+    json.dump({"model": model_name}, open(os.path.join(os.path.dirname(out_json), "transcribe_meta.json"), "w"))
     print(f"  transcribed {len(words)} words")
     return words
 
@@ -72,6 +84,8 @@ def main():
     ap.add_argument("--side", required=True)
     ap.add_argument("--mic", required=True)
     ap.add_argument("--work", default="work_cut")
+    ap.add_argument("--model", default="large-v3", help="faster-whisper model (large-v3 default; base = old behaviour)")
+    ap.add_argument("--retranscribe", action="store_true", help="ignore a cached words.json")
     a = ap.parse_args()
     os.makedirs(a.work, exist_ok=True)
     af = os.path.join(a.work, "audio_front.wav")
@@ -95,7 +109,10 @@ def main():
     print("  offsets (sec cam lags mic):", off)
 
     print("[3/3] transcribing mic with Whisper...")
-    words = transcribe(am, os.path.join(a.work, "words.json"))
+    wj = os.path.join(a.work, "words.json")
+    if a.retranscribe and os.path.exists(wj):
+        os.replace(wj, wj + ".prev")
+    words = transcribe(am, wj, a.model)
     print("DONE. first words:", " ".join(w["word"] for w in words[:14]))
 
 if __name__ == "__main__":

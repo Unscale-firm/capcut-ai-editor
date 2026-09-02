@@ -32,14 +32,21 @@ _norm = lambda w: re.sub(r"[^a-z0-9]", "", w.lower())
 _TRAIL = re.compile(r"[.,!?;:]+$")
 
 
-def apply(words):
+def apply(words, rules=None, log=None):
+    """rules: (find, repl[, guard]) list, default CORRECTIONS (VSL). guard(prev) gets the normalized
+    3 source tokens before the match and can veto it. log(found_text, repl_text, start_s) is called
+    once per replacement when given."""
+    rules = CORRECTIONS if rules is None else rules
     out = []
     i = 0
     while i < len(words):
         hit = None
-        for find, repl in CORRECTIONS:
+        for rule in rules:
+            find, repl = rule[0], rule[1]
+            guard = rule[2] if len(rule) > 2 else None   # optional guard(prev3_norm_tokens) -> bool
             n = len(find)
-            if i + n <= len(words) and [_norm(words[i + j]["word"]) for j in range(n)] == find:
+            if i + n <= len(words) and [_norm(words[i + j]["word"]) for j in range(n)] == find \
+                    and (guard is None or guard([_norm(w["word"]) for w in words[max(0, i - 3):i]])):
                 hit = (find, repl, n)
                 break
         if not hit:
@@ -53,6 +60,8 @@ def apply(words):
             repl[-1] += m.group(0)
 
         s, e = span[0]["start"], span[-1]["end"]
+        if log:
+            log(" ".join(w["word"] for w in span), " ".join(repl), s)
         step = (e - s) / len(repl)
         for k, tok in enumerate(repl):
             out.append({"start": round(s + k * step, 3),

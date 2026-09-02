@@ -19,7 +19,9 @@ Run the whole pipeline. All commands run from `C:\Users\User\capcut-ai-editor`. 
    ```
    venv/Scripts/python.exe pipeline/sync_transcribe.py --front <FRONT> --side <SIDE> --mic <MIC> --work work_cut
    ```
-   Report the offsets and word count.
+   Report the offsets and word count. Whisper runs `large-v3` on the GPU (`--model base` = old
+   behaviour). The words.json timestamps are still only approximate — the cut never trusts them
+   directly (see step 3).
 
 3. **Cut — best-take selection.** First run WITHOUT assembling to see the kept-line list:
    ```
@@ -31,6 +33,20 @@ Run the whole pipeline. All commands run from `C:\Users\User\capcut-ai-editor`. 
    ```
    venv/Scripts/python.exe pipeline/cut_heuristic.py --work work_cut --front <FRONT> --drop "<your,drops>" --assemble
    ```
+   **Seams (no clipped words — added 2026-09-02).** Both `cut_heuristic.py` and `refine_cut.py` now:
+   - **snap every cut onto real silence** (`pipeline/seams.py`): the Whisper word time is only a
+     hint; the cut moves outward to the nearest ≥150 ms quiet run in the mic waveform, plus a
+     margin (0.15 s before the first word, 0.12 s after the last), never past a dropped neighbour
+     word. Straddling words get swallowed whole, never halved. `--no-snap` = legacy fixed pad.
+   - **verify every seam after `--assemble`** (`pipeline/verify_words.py`, auto-run, `--no-verify`
+     to skip): re-transcribes `base_cut.mp4` and diffs it against `words_cut.json`. Read the
+     verdict before moving on. `CLIPPED` / `PARTIAL` = FAIL, fix the range. `caption-repaired` =
+     the audio is whole, the caption list was missing a mis-timed word and has been added.
+     `EXTRA-word` = a whole word Whisper never listed sits at the seam — listen, and if it dangles
+     force the cut with a hard edge: `refine_cut.py --ranges "139.6:143.5!,..."` (`!` = trust
+     this time, extend at most 0.05 s). `on-speech` = a run-on splice, cut sits on voice — accept
+     only if deliberate.
+   - Run `verify_words.py --work <dir> --audio <final.mp4>` on any re-render before surfacing it.
 
 4. **Finalize into Remotion** (installs footage, generates captions, sets duration):
    ```
@@ -42,6 +58,34 @@ Run the whole pipeline. All commands run from `C:\Users\User\capcut-ai-editor`. 
    cd C:/Users/User/my-video && npx remotion render new-ad C:/Users/User/Downloads/new-ad.mp4 --codec=h264
    ```
    Open it for the user. This is the cut + standard look (1.1x speed, steady zoom, captions).
+
+   **Hook variants (h1/h2/h3) — render the body ONCE, never per hook.** Render the body comp once
+   (`new-ad-<F>-body.mp4`) and each hook comp as its hook frames only (`...-hook1.mp4`, ...). Then:
+   ```
+   venv/bin/python pipeline/assemble_hooks.py --body body.mp4 --hooks h1=hook1.mp4,h2=hook2.mp4 \
+       --out-dir ~/Downloads --name new-ad-<F>        # -> new-ad-<F>-h1.mp4, -h2.mp4 ...
+   ```
+   Video is stream-copied (hook re-encoded to match only if its params/SPS differ), audio is decoded
+   + joined + encoded once (no AAC gap at the join), loudnorm gate applied, every output checked
+   (frames, a/v length, join, tail, decode) and `volumedetect` printed. A body fix = re-render the
+   body once, re-run assemble_hooks.py. A hook fix = re-render that hook only, re-run. Exit 1 = FAIL.
+
+   **5a. Face framing — before the first render, then on it (fixes "face not centred after the switch"
+   and "why did you zoom that much").** The cameras never move, so measure once per ad. No OpenCV:
+   the face box is read by a human off one extracted frame per camera.
+   ```
+   venv/bin/python pipeline/face_frame.py --front <front tape> --side <side tape> --side-vf transpose=1 --work work_x
+   ```
+   That exits 1 and leaves `work_x/front_frame.png` + `side_frame.png`. Read the face box off each
+   (forehead-to-chin, ear-to-ear, pixels: X,Y,W,H) and re-run with `--face-box X,Y,W,H --side-face-box X,Y,W,H`.
+   Check `work_x/face_check.png` (green box on the face, yellow line through the eyes), then paste the
+   printed `transformOrigin` / `translate(...)` into the comp's video style (`objectPosition` is a no-op on
+   9:16 tapes) and cap `ZOOM` at the printed `ZOOM_MAX` (never below `ZOOM_MIN`, that shows a black edge).
+   On the first render, a contact sheet at every switch frame, checked by eye before surfacing:
+   ```
+   venv/bin/python pipeline/switch_stills.py --video ~/Downloads/new-ad-x.mp4 --frames <cut,cut+dur,...> --out work_x/switches.png
+   ```
+   Face off the orange centre line or taller than ~1/3 of the tile = fix the framing and re-render; do not surface it.
 
 5b. **SPOKEN WORD & NUMBER EFFECTS — small pop-ups synced to what he says (placed by you, NOT gated).**
    These are the little on-screen reactions that fire on *special spoken words* — a word slam, question
@@ -179,6 +223,20 @@ Run the whole pipeline. All commands run from `C:\Users\User\capcut-ai-editor`. 
   re-implement the cut. Prefer a Remotion component for anything parameterized per-ad or needing frame-exact
   retiming; reach for HyperFrames for one-off set-pieces. Its skills live in `~/.claude/skills/hyperframes*`.
 - **Time cap: keep each ad under 1h, hard ceiling 1h15.** Don't open-endedly rework — pick a good take and move on.
+- **Seam check (mandatory):** never surface a cut whose `verify_words.py` verdict is FAIL. Fix the
+  range (or hard-edge it) and re-assemble. Words cut in the middle were the #1 founder complaint.
+- **Machine check before every render:** free disk ≥ 15 GB, and `nvidia-smi` shows no `ollama` holding
+  VRAM (stop it first). Then the render lock (`flock 9`), `--concurrency=2`.
+- **Loudness gate on every delivery:** `loudnorm=I=-14:TP=-1.5:LRA=11,aresample=48000`, `-ar 48000`, and
+  paste the `volumedetect` mean/peak in the message. No exceptions, no "will do later".
+- **Hooks on the shared body:** render the body ONCE; h1/h2/h3 = hook clip + body assembled. A body fix
+  is applied once and every hook re-assembled. Never re-render the body per hook.
+- **Fix requests are reported per item:** N items in → N lines out, each with what changed and how it was
+  verified at the founder's timestamp. Partial completion reported as "done" is a failure.
+- **Stills before render:** one frame at every angle switch and b-roll peak, checked by eye (face centred,
+  mouth clear, card readable, right camera at head-turns).
+- **Update `vsl-edit/ads-edit/ADS_INDEX.md`** (ad number, F-code, latest file per hook, work dir, session)
+  at the end of every build or delivery.
 - **Mic-quality check (mandatory):** after building, ffprobe the final audio and confirm it is NOT degraded
   (must match the source mic's sample-rate/channels, e.g. 48 kHz — never the 16 kHz mono transcription copy).
 - **Side angle is never zoomed** — it stays at natural size (only the front camera gets the steady zoom + punch).

@@ -9,8 +9,12 @@ Outputs in --work: keep_ranges.json, words_cut.json, (base_cut.mp4 with --assemb
 Run:
   venv/Scripts/python.exe pipeline/cut_heuristic.py --work work_cut --front <front.mp4> --assemble
 """
-import json, re, argparse, os, subprocess
+import json, re, argparse, os, subprocess, sys
 from difflib import SequenceMatcher
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
+from seams import snap_ranges, words_on_timeline, mic_wav_for
 
 FF = r"C:\Users\User\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-8.1.1-full_build\bin\ffmpeg.exe"
 if not os.path.exists(FF):
@@ -18,7 +22,7 @@ if not os.path.exists(FF):
 SILENCE = 0.8       # gap (s) that ends a speech segment
 SIM = 0.60          # ratio above which two segments are the same line (different takes)
 ISO = 2.5           # a short segment isolated by gaps this big = slate/warmup
-PAD = 0.12
+PAD = 0.12          # only used with --no-snap (legacy: fixed pad on the Whisper timestamp)
 SLATE = re.compile(
     r"^(number\s+\w+|body|cta|hook|intro|outro|take\s*\d+|fs\s*0?\d+|add\s+fs.*|"
     r"test(,?\s*test)+|super|all right|i'?ll go in|open\s+number.*|come.*|sa.*|"
@@ -99,6 +103,8 @@ def main():
     ap.add_argument("--front", default=None)
     ap.add_argument("--assemble", action="store_true")
     ap.add_argument("--drop", default="", help="1-based positions in the kept list to remove, e.g. 1,4,5")
+    ap.add_argument("--no-snap", action="store_true", help="legacy: pad Whisper timestamps instead of snapping cuts to silence")
+    ap.add_argument("--no-verify", action="store_true", help="skip the seam verifier after --assemble")
     a = ap.parse_args()
 
     words = json.load(open(os.path.join(a.work, "words.json"), encoding="utf-8"))
@@ -110,14 +116,15 @@ def main():
         kept = [s for i, s in enumerate(kept, 1) if i not in drop]
         print(f"(editor dropped positions {sorted(drop)})")
 
-    ranges, words_cut, t_out = [], [], 0.0
-    for s in kept:
-        a0 = max(0, s[0]["start"] - PAD); b0 = s[-1]["end"] + PAD
-        ranges.append([round(a0, 2), round(b0, 2)])
-        for w in s:
-            ns = t_out + (w["start"] - a0)
-            words_cut.append({"start": round(ns, 3), "end": round(ns + (w["end"] - w["start"]), 3), "word": w["word"]})
-        t_out += (b0 - a0)
+    raw = [[s[0]["start"], s[-1]["end"]] for s in kept]
+    if a.no_snap:
+        ranges = [[round(max(0, x - PAD), 2), round(y + PAD, 2)] for x, y in raw]
+    else:
+        # cut on real silence next to the words, never on the Whisper timestamp itself
+        print("--- snapping cuts to silence ---")
+        ranges = snap_ranges(raw, words, mic_wav_for(a.work), verbose=True)
+    words_cut = words_on_timeline(ranges, words)
+    t_out = sum(y - x for x, y in ranges)
 
     json.dump(ranges, open(os.path.join(a.work, "keep_ranges.json"), "w"))
     json.dump(words_cut, open(os.path.join(a.work, "words_cut.json"), "w"), ensure_ascii=False)
@@ -140,10 +147,18 @@ def main():
         fcfile = os.path.join(a.work, "fc.txt"); open(fcfile, "w").write(fc)
         out = os.path.join(a.work, "base_cut.mp4")
         print("assembling base_cut.mp4 ...")
-        r = subprocess.run([FF, "-y", "-i", a.front, "-i", mic, "-filter_complex_script", fcfile,
-                            "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-preset", "veryfast",
-                            "-crf", "19", "-c:a", "aac", "-b:a", "192k", out], capture_output=True, text=True)
+        # NVENC (GPU) when available, else libx264
+        has_nvenc = "h264_nvenc" in subprocess.run([FF, "-hide_banner", "-encoders"],
+                                                   capture_output=True, text=True).stdout
+        venc = ["-c:v", "h264_nvenc", "-preset", "p4", "-tune", "hq", "-rc", "vbr", "-cq", "19", "-b:v", "0"] \
+            if has_nvenc else ["-c:v", "libx264", "-preset", "veryfast", "-crf", "19"]
+        hwdec = ["-hwaccel", "cuda"] if has_nvenc else []
+        r = subprocess.run([FF, "-y", *hwdec, "-i", a.front, "-i", mic, "-filter_complex_script", fcfile,
+                            "-map", "[v]", "-map", "[a]", *venc,
+                            "-c:a", "aac", "-b:a", "192k", out], capture_output=True, text=True)
         print("FFMPEG ERROR:\n" + r.stderr[-1200:] if r.returncode else "wrote " + out)
+        if r.returncode == 0 and not a.no_verify:
+            subprocess.run([sys.executable, os.path.join(HERE, "verify_words.py"), "--work", a.work])
 
 if __name__ == "__main__":
     main()

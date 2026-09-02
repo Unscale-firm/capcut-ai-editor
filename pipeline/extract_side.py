@@ -23,6 +23,8 @@ def main():
     ap.add_argument("--switches", required=True, help="comma list of cutframe:durframe")
     ap.add_argument("--out", required=True)
     ap.add_argument("--prefix", default="side0604")
+    ap.add_argument("--vf", default="crop=771:1371:0:360,hflip,scale=1080:1920",
+                    help="reframe filter for the side cam (shoot-specific)")
     a = ap.parse_args()
 
     kr = json.load(open(os.path.join(a.work, "keep_ranges.json")))
@@ -62,9 +64,13 @@ def main():
         print(f"switch {i}: f{cf}+{df}  mic {mic0:.2f}s -> side src {src_start:.2f}s  len {length:.2f}s -> {os.path.basename(out)}")
         # reframe: side cam is a WIDE shot -> crop+enlarge to match the front's head-and-shoulders,
         # drop the lamp (x0=0) + lift head to upper third (y0=360); hflip cancels AdComposition's scaleX(-1)
+        has_nvenc = "h264_nvenc" in subprocess.run([FF, "-hide_banner", "-encoders"],
+                                                   capture_output=True, text=True).stdout
+        venc = ["-c:v", "h264_nvenc", "-preset", "p4", "-tune", "hq", "-rc", "vbr", "-cq", "19", "-b:v", "0"] \
+            if has_nvenc else ["-c:v", "libx264", "-preset", "veryfast", "-crf", "19"]
         r = subprocess.run([FF, "-y", "-ss", f"{src_start:.3f}", "-t", f"{length:.3f}", "-i", side,
-                            "-vf", "crop=771:1371:0:360,hflip,scale=1080:1920",
-                            "-an", "-c:v", "libx264", "-preset", "veryfast", "-crf", "19",
+                            "-vf", a.vf,
+                            "-an", *venc,
                             "-pix_fmt", "yuv420p", out], capture_output=True, text=True)
         if r.returncode:
             print("  FFMPEG ERR:", r.stderr[-400:])
